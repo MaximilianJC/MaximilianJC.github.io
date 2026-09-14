@@ -536,7 +536,8 @@ section {
   background: var(--accent-dim);
 }
 
-.orbit-icon { font-size: 0.95rem; color: var(--accent); }
+.orbit-icon { color: var(--accent); display: flex; }
+.orbit-icon svg { width: 19px; height: 19px; display: block; }
 .orbit-count { font-family: var(--font-mono); font-size: 0.75rem; }
 
 .reach-updated {
@@ -1050,6 +1051,7 @@ section {
 
   .orbit-node { width: 58px; height: 58px; }
   .orbit-count { font-size: 0.62rem; }
+  .orbit-icon svg { width: 16px; height: 16px; }
   .orbit-total { font-size: 2.1rem; }
   .orbit-total-label { font-size: 0.62rem; }
   .reach-updated { font-size: 0.62rem; }
