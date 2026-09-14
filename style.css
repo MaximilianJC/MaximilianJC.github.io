@@ -217,10 +217,13 @@ body.splash-active { overflow: hidden; }
   z-index: 45;
   background: rgba(4, 4, 5, 0.6);
   opacity: 0;
+  /* Transparent is not the same as absent: without this the invisible layer
+     still swallows every tap on the page underneath. */
+  pointer-events: none;
   transition: opacity 0.3s ease;
 }
 
-.sidebar-backdrop.show { opacity: 1; }
+.sidebar-backdrop.show { opacity: 1; pointer-events: auto; }
 
 /* Mobile toggle */
 .mobile-toggle {
