@@ -42,6 +42,24 @@ a { color: inherit; }
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* Soft accent glow that follows the mouse. Screen blend so it only ever
+   lightens; hidden until the first pointermove (and never on touch). */
+.cursor-glow {
+  position: fixed;
+  top: -200px;
+  left: -200px;
+  width: 400px;
+  height: 400px;
+  z-index: 99;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200, 255, 63, 0.09) 0%, transparent 65%);
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.3s;
+  will-change: transform;
+}
+
 /* Ambient background — a faint grid plus one slow-drifting glow, so the page
    has depth without turning into a gradient wallpaper. Sits behind everything. */
 .ambient {

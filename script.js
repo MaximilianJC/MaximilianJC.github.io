@@ -272,3 +272,13 @@ document.querySelectorAll(".mag-link").forEach(link => {
   });
   link.addEventListener("mouseleave", () => { link.style.transform = ""; });
 });
+
+// ---- Cursor glow ----
+const glow = document.querySelector(".cursor-glow");
+if (glow && matchMedia("(hover: hover)").matches) {
+  addEventListener("pointermove", e => {
+    glow.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    glow.style.opacity = "1";
+  }, { passive: true });
+  document.addEventListener("mouseleave", () => { glow.style.opacity = "0"; });
+}
