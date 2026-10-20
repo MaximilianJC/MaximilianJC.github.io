@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Maximilian Jakob Clari — Physical AI</title>
 <meta name="description" content="Maximilian Jakob Clari — Physical AI engineer building manipulation policies on the LeRobot SO-101, working toward a robot arm that plays chess.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%230a0a0b%22/><text x=%2250%25%22 y=%2258%25%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%23c8ff3f%22>M</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23111110%22/><text x=%2250%25%22 y=%2260%25%22 font-size=%2258%22 font-family=%22monospace%22 text-anchor=%22middle%22 fill=%22%23ff5a1f%22>M</text></svg>">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' data:; style-src 'self'; font-src 'self'; script-src 'self'; connect-src 'self'; form-action 'none'; base-uri 'none'">
 <link rel="stylesheet" href="fonts.css">
@@ -13,226 +13,268 @@
 </head>
 <body>
 
-<div class="ambient"></div>
-<div class="cursor-glow" aria-hidden="true"></div>
-<div class="grain"></div>
-
 <!-- Intro splash. Change the sentence below and nothing else — the animation
      splits it into words and times itself from the word count. -->
 <div class="splash" id="splash">
-  <p class="splash-line kinetic" id="splash-line">
+  <p class="splash-line" id="splash-line">
     Newton's 4th law: <em>an idiot in motion beats a genius at rest.</em>
   </p>
   <span class="splash-skip">click to skip</span>
 </div>
 
-<header class="mobile-bar">
-  <span class="wordmark">MJC<i>.</i></span>
-  <span class="mobile-bar-name">Maximilian Jakob Clari</span>
-  <button class="mobile-toggle" id="mobile-toggle" aria-label="Open menu" aria-expanded="false">
-    <span></span><span></span>
-  </button>
-</header>
-
-<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
-
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-top">
-    <span class="wordmark">MJC<i>.</i></span>
-    <div>
-      <p class="sidebar-name">Maximilian Jakob Clari</p>
-      <p class="sidebar-role">Physical AI Engineer</p>
-    </div>
+<!-- Title block: the navigation, laid out like the title strip of a drawing. -->
+<header class="strip">
+  <a class="strip-cell strip-brand" href="#intro"><span class="wordmark">MJC<i>.</i></span></a>
+  <div class="strip-cell strip-id">
+    <span class="strip-name">Maximilian Jakob Clari</span>
+    <span class="strip-role">Physical AI Engineer</span>
   </div>
-
-  <nav class="sidebar-nav">
-    <a href="#intro" class="nav-link active" data-target="intro"><span class="nav-num">01</span>Intro</a>
-    <a href="#reach" class="nav-link" data-target="reach"><span class="nav-num">02</span>Reach</a>
-    <a href="#work" class="nav-link" data-target="work"><span class="nav-num">03</span>Work</a>
-    <a href="#log" class="nav-link" data-target="log"><span class="nav-num">04</span>Log</a>
-    <a href="#contact" class="nav-link" data-target="contact"><span class="nav-num">05</span>Contact</a>
+  <nav class="strip-cell strip-nav" aria-label="Sections">
+    <a href="#intro" data-target="intro"><span>01</span>Intro</a>
+    <a href="#work" data-target="work"><span>02</span>Work</a>
+    <a href="#log" data-target="log"><span>03</span>Log</a>
+    <a href="#reach" data-target="reach"><span>04</span>Reach</a>
+    <a href="#contact" data-target="contact"><span>05</span>Contact</a>
   </nav>
-
-  <div class="sidebar-socials">
+  <div class="strip-cell strip-sheet">
+    <span class="strip-sheet-label">Sheet</span>
+    <span><b id="sheet-num">01</b>/05</span>
+    <span class="strip-sheet-name" id="sheet-name">Intro</span>
+  </div>
+  <div class="strip-cell strip-social">
     <a href="https://www.instagram.com/mxjclabs/" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
     <a href="https://www.tiktok.com/@mxjc.labs" target="_blank" rel="noopener" aria-label="TikTok">TT</a>
     <a href="https://www.youtube.com/@mxjclabs" target="_blank" rel="noopener" aria-label="YouTube">YT</a>
     <a href="https://www.linkedin.com/in/maximilian-jakob-clari-4214042a8" target="_blank" rel="noopener" aria-label="LinkedIn">IN</a>
   </div>
-</aside>
+  <button class="strip-cell strip-index" id="index-toggle" type="button" aria-expanded="false" aria-controls="index">Index</button>
+</header>
+
+<!-- Small screens: the strip collapses and the sections open from here. -->
+<div class="index" id="index" hidden>
+  <nav class="index-nav" aria-label="Sections">
+    <a href="#intro" data-target="intro"><span>01</span>Intro</a>
+    <a href="#work" data-target="work"><span>02</span>Work</a>
+    <a href="#log" data-target="log"><span>03</span>Log</a>
+    <a href="#reach" data-target="reach"><span>04</span>Reach</a>
+    <a href="#contact" data-target="contact"><span>05</span>Contact</a>
+  </nav>
+  <div class="index-foot">
+    <p><span class="strip-name">Maximilian Jakob Clari</span><span class="strip-role">Physical AI Engineer</span></p>
+    <div class="index-social">
+      <a href="https://www.instagram.com/mxjclabs/" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+      <a href="https://www.tiktok.com/@mxjc.labs" target="_blank" rel="noopener" aria-label="TikTok">TT</a>
+      <a href="https://www.youtube.com/@mxjclabs" target="_blank" rel="noopener" aria-label="YouTube">YT</a>
+      <a href="https://www.linkedin.com/in/maximilian-jakob-clari-4214042a8" target="_blank" rel="noopener" aria-label="LinkedIn">IN</a>
+    </div>
+  </div>
+</div>
 
 <main>
 
-  <section id="intro" class="intro">
-    <div class="intro-copy">
-      <p class="eyebrow kinetic">PHYSICAL AI ENGINEER — BUILDING IN PUBLIC</p>
-      <h1 class="headline kinetic">
-        Making robots<br>that can <em>actually</em><br>touch the world.
-      </h1>
-      <p class="intro-sub reveal">
-        I train manipulation policies on the LeRobot SO-101. Right now I'm working
-        toward an arm that plays chess on a real board.
-      </p>
-      <p class="intro-sub reveal">
-        <span id="age-line">25</span>, based in Berlin, finishing my Master's in
-        Computer Engineering at HTW Berlin. I post everything I build.
-      </p>
+  <!-- 01 — Intro -->
+  <section id="intro" class="sheet intro" data-sheet="Intro">
+    <header class="sheet-head" aria-hidden="true"><span class="sheet-no">01</span><span class="sheet-rule"></span><span>Intro</span></header>
 
-      <div class="intro-stats reveal">
+    <p class="eyebrow">PHYSICAL AI ENGINEER — BUILDING IN PUBLIC</p>
+    <h1 class="headline">
+      Making robots<br>that can <em>actually</em><br>touch the world.
+    </h1>
+
+    <div class="intro-body">
+      <dl class="intro-stats">
         <div class="stat">
-          <span class="stat-label">Age</span>
-          <span class="stat-val" id="age-stat">25</span>
+          <dt class="stat-label">Age</dt>
+          <dd class="stat-val" id="age-stat">25</dd>
         </div>
         <div class="stat">
-          <span class="stat-label">Studying</span>
-          <span class="stat-val">Computer Eng.</span>
+          <dt class="stat-label">Studying</dt>
+          <dd class="stat-val">Computer Eng.</dd>
         </div>
         <div class="stat">
-          <span class="stat-label">Platform</span>
-          <span class="stat-val">SO-101</span>
+          <dt class="stat-label">Platform</dt>
+          <dd class="stat-val">SO-101</dd>
         </div>
-      </div>
-    </div>
+      </dl>
 
-    <div class="intro-links reveal">
-      <a href="#work" class="mag-link">View work <span>→</span></a>
-      <a href="#contact" class="mag-link">Get in touch <span>→</span></a>
-    </div>
-  </section>
-
-  <section id="reach" class="reach">
-    <p class="section-num reveal">02 / Reach</p>
-    <h2 class="section-title kinetic">Building an audience, too</h2>
-
-    <div class="orbit-wrap reveal" id="orbit-wrap">
-      <div class="orbit-center">
-        <span class="orbit-total" id="orbit-total">0</span>
-        <span class="orbit-total-label" id="orbit-total-label">combined followers</span>
-      </div>
-      <div class="orbit-ring" id="orbit-ring">
-        <a class="orbit-node" data-platform="youtube" data-label="YouTube" href="https://www.youtube.com/@mxjclabs" target="_blank" rel="noopener">
-          <span class="orbit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4.5"/><path d="M10 9.2 15.6 12 10 14.8Z" fill="currentColor" stroke="none"/></svg></span>
-          <span class="orbit-count" data-count>0</span>
-        </a>
-        <a class="orbit-node" data-platform="instagram" data-label="Instagram" href="https://www.instagram.com/mxjclabs/" target="_blank" rel="noopener">
-          <span class="orbit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.2"/><circle cx="12" cy="12" r="4.1"/><circle cx="17.3" cy="6.7" r="1.05" fill="currentColor" stroke="none"/></svg></span>
-          <span class="orbit-count" data-count>0</span>
-        </a>
-        <a class="orbit-node" data-platform="tiktok" data-label="TikTok" href="https://www.tiktok.com/@mxjc.labs" target="_blank" rel="noopener">
-          <span class="orbit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.8 3.5v10.2a3.9 3.9 0 1 1-3.9-3.9c.34 0 .67.04.98.12"/><path d="M13.8 3.5c.35 2.4 2.1 4.1 4.5 4.4"/></svg></span>
-          <span class="orbit-count" data-count>0</span>
-        </a>
-      </div>
-    </div>
-    <p class="reach-updated reveal" id="reach-updated"></p>
-  </section>
-
-  <section id="work" class="work">
-    <p class="section-num reveal">03 / Work</p>
-    <h2 class="section-title kinetic">What I'm building</h2>
-
-    <div class="bento reveal">
-      <article class="bento-tile bento-flagship" data-modal="modal-chess" tabindex="0" role="button">
-        <div class="tile-top">
-          <span class="tile-tag tag-live"><i></i>IN_DEVELOPMENT</span>
-          <span class="tile-index">01</span>
-        </div>
-        <h3>SO-101 Plays Chess</h3>
-        <p>
-          A LeRobot SO-101 arm that reads a physical chessboard, picks a
-          move, and moves the piece itself. No simulation.
+      <div class="intro-copy">
+        <p class="intro-sub intro-lead">
+          I train manipulation policies on the LeRobot SO-101. Right now I'm working
+          toward an arm that plays chess on a real board.
         </p>
-        <div class="board-viz" aria-hidden="true"></div>
-        <div class="tile-tags">
-          <span>Robotics</span>
-          <span>Computer Vision</span>
-        </div>
-        <span class="tile-open">Open project <i>→</i></span>
-      </article>
-
-      <article class="bento-tile" data-modal="modal-act" tabindex="0" role="button">
-        <div class="tile-top">
-          <span class="tile-tag tag-early"><i></i>V0.1</span>
-          <span class="tile-index">02</span>
-        </div>
-        <h3>ACT Policy Trainer</h3>
-        <p>
-          50 teleoperated demos, one ACT policy, and an arm that picks up a
-          ball and drops it in a bowl on its own.
+        <p class="intro-sub">
+          <span id="age-line">25</span>, based in Berlin, finishing my Master's in
+          Computer Engineering at HTW Berlin. I post everything I build.
         </p>
-        <div class="tile-tags">
-          <span>ACT</span>
-          <span>LeRobot</span>
-        </div>
-        <span class="tile-open">Open project <i>→</i></span>
-      </article>
-
-      <article class="bento-tile bento-stack">
-        <div class="tile-top">
-          <span class="tile-tag tag-stack"><i></i>STACK</span>
-        </div>
-        <ul class="stack-list">
-          <li>LeRobot SO-101</li>
-          <li>Teleoperation &amp; data collection</li>
-          <li>Everything else still open</li>
-        </ul>
-      </article>
-    </div>
-  </section>
-
-  <section id="log" class="log">
-    <p class="section-num reveal">04 / Log</p>
-    <h2 class="section-title kinetic">Chess build log</h2>
-    <!-- Add a new entry by copying one block below. Newest goes on top. -->
-    <div class="log-list" id="log-list">
-
-      <div class="log-entry reveal">
-        <span class="log-date log-date-soon">Video coming soon</span>
-        <div>
-          <h3 class="log-title">Building the pieces</h3>
-          <p class="log-desc">
-            Printing the pieces next. Each one gets a magnet so the arm has an
-            easier time grabbing it.
-          </p>
+        <div class="intro-links">
+          <a href="#work" class="arrow-link">View work <span>→</span></a>
+          <a href="#contact" class="arrow-link">Get in touch <span>→</span></a>
         </div>
       </div>
-
-      <a class="log-entry reveal" href="https://www.instagram.com/mxjclabs/" target="_blank" rel="noopener">
-        <span class="log-date">2026-09-24</span>
-        <div>
-          <h3 class="log-title">Chessboard done</h3>
-          <p class="log-desc">
-            3D-printed and assembled. First real piece of hardware for the
-            chess build.
-          </p>
-        </div>
-      </a>
-
-      <a class="log-entry reveal" href="https://www.instagram.com/reel/Dcv7LLGM_wV/" target="_blank" rel="noopener">
-        <span class="log-date">2026-09-01</span>
-        <div>
-          <h3 class="log-title">ACT feasibility test</h3>
-          <p class="log-desc">
-            Not chess yet. Just checking whether I can train a policy at all:
-            50 teleoperated demos, and the SO-101 moves a ball into a bowl by itself.
-          </p>
-        </div>
-      </a>
-
     </div>
   </section>
 
-  <section id="contact" class="contact">
-    <p class="section-num reveal">05 / Contact</p>
-    <h2 class="headline headline-contact kinetic">Let's talk <em>robots</em>.</h2>
-    <p class="intro-sub reveal">
-      Build updates go up here first.
-    </p>
-    <div class="contact-links reveal">
-      <a href="https://www.instagram.com/mxjclabs/" target="_blank" rel="noopener" class="mag-link">Instagram <span>→</span></a>
-      <a href="https://www.tiktok.com/@mxjc.labs" target="_blank" rel="noopener" class="mag-link">TikTok <span>→</span></a>
-      <a href="https://www.youtube.com/@mxjclabs" target="_blank" rel="noopener" class="mag-link">YouTube <span>→</span></a>
-      <a href="https://www.linkedin.com/in/maximilian-jakob-clari-4214042a8" target="_blank" rel="noopener" class="mag-link">LinkedIn <span>→</span></a>
+  <!-- 02 — Work -->
+  <section id="work" class="sheet work" data-sheet="Work">
+    <header class="sheet-head" aria-hidden="true"><span class="sheet-no">02</span><span class="sheet-rule"></span><span>Work</span></header>
+    <h2 class="section-title">What I'm building</h2>
+
+    <div class="work-grid">
+      <article class="project project-main" data-modal="modal-chess" tabindex="0" role="button">
+        <div class="project-head">
+          <span class="project-index">01</span>
+          <span class="tag tag-live"><i></i>IN_DEVELOPMENT</span>
+        </div>
+        <div class="project-body">
+          <div class="project-text">
+            <h3 class="project-title" data-dim>SO-101 Plays Chess</h3>
+            <p>
+              A LeRobot SO-101 arm that reads a physical chessboard, picks a
+              move, and moves the piece itself. No simulation.
+            </p>
+            <p class="project-tags">
+              <span>Robotics</span>
+              <span>Computer Vision</span>
+            </p>
+            <span class="project-open">Open project <i>→</i></span>
+          </div>
+          <figure class="board" aria-hidden="true">
+            <span class="board-ranks"><b>8</b><b>7</b><b>6</b><b>5</b><b>4</b><b>3</b><b>2</b><b>1</b></span>
+            <div class="board-viz"></div>
+            <span class="board-files"><b>a</b><b>b</b><b>c</b><b>d</b><b>e</b><b>f</b><b>g</b><b>h</b></span>
+          </figure>
+        </div>
+      </article>
+
+      <div class="work-side">
+        <article class="project project-small" data-modal="modal-act" tabindex="0" role="button">
+          <div class="project-head">
+            <span class="project-index">02</span>
+            <span class="tag tag-early"><i></i>V0.1</span>
+          </div>
+          <h3 class="project-title" data-dim>ACT Policy Trainer</h3>
+          <p>
+            50 teleoperated demos, one ACT policy, and an arm that picks up a
+            ball and drops it in a bowl on its own.
+          </p>
+          <p class="project-tags">
+            <span>ACT</span>
+            <span>LeRobot</span>
+          </p>
+          <span class="project-open">Open project <i>→</i></span>
+        </article>
+
+        <div class="stack">
+          <p class="tag tag-stack"><i></i>STACK</p>
+          <ol class="stack-list">
+            <li>LeRobot SO-101</li>
+            <li>Teleoperation &amp; data collection</li>
+            <li>Everything else still open</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 — Log -->
+  <section id="log" class="sheet log" data-sheet="Log">
+    <header class="sheet-head" aria-hidden="true"><span class="sheet-no">03</span><span class="sheet-rule"></span><span>Log</span></header>
+    <h2 class="section-title">Chess build log</h2>
+
+    <div class="log-table">
+      <div class="log-head" aria-hidden="true"><span>Date</span><span>Change</span></div>
+      <!-- Add a new entry by copying one block below. Newest goes on top. -->
+      <div class="log-list" id="log-list">
+
+        <div class="log-entry">
+          <span class="log-date log-date-soon">Video coming soon</span>
+          <div>
+            <h3 class="log-title">Building the pieces</h3>
+            <p class="log-desc">
+              Printing the pieces next. Each one gets a magnet so the arm has an
+              easier time grabbing it.
+            </p>
+          </div>
+        </div>
+
+        <a class="log-entry" href="https://www.instagram.com/mxjclabs/" target="_blank" rel="noopener">
+          <span class="log-date">2026-09-24</span>
+          <div>
+            <h3 class="log-title">Chessboard done</h3>
+            <p class="log-desc">
+              3D-printed and assembled. First real piece of hardware for the
+              chess build.
+            </p>
+          </div>
+        </a>
+
+        <a class="log-entry" href="https://www.instagram.com/reel/Dcv7LLGM_wV/" target="_blank" rel="noopener">
+          <span class="log-date">2026-09-01</span>
+          <div>
+            <h3 class="log-title">ACT feasibility test</h3>
+            <p class="log-desc">
+              Not chess yet. Just checking whether I can train a policy at all:
+              50 teleoperated demos, and the SO-101 moves a ball into a bowl by itself.
+            </p>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 — Reach -->
+  <section id="reach" class="sheet reach" data-sheet="Reach">
+    <header class="sheet-head" aria-hidden="true"><span class="sheet-no">04</span><span class="sheet-rule"></span><span>Reach</span></header>
+    <h2 class="section-title">Building an audience, too</h2>
+
+    <div class="reach-grid" id="reach-grid">
+      <div class="reach-total">
+        <span class="reach-num" id="reach-total">0</span>
+        <span class="reach-label" id="reach-label">combined followers</span>
+        <p class="reach-updated" id="reach-updated"></p>
+      </div>
+
+      <div class="ledger">
+        <a class="ledger-row" data-platform="instagram" data-label="Instagram" href="https://www.instagram.com/mxjclabs/" target="_blank" rel="noopener">
+          <span class="ledger-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.2"/><circle cx="12" cy="12" r="4.1"/><circle cx="17.3" cy="6.7" r="1.05" fill="currentColor" stroke="none"/></svg></span>
+          <span class="ledger-name">Instagram</span>
+          <span class="ledger-count" data-count>0</span>
+          <span class="ledger-bar"><i></i></span>
+        </a>
+        <a class="ledger-row" data-platform="tiktok" data-label="TikTok" href="https://www.tiktok.com/@mxjc.labs" target="_blank" rel="noopener">
+          <span class="ledger-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.8 3.5v10.2a3.9 3.9 0 1 1-3.9-3.9c.34 0 .67.04.98.12"/><path d="M13.8 3.5c.35 2.4 2.1 4.1 4.5 4.4"/></svg></span>
+          <span class="ledger-name">TikTok</span>
+          <span class="ledger-count" data-count>0</span>
+          <span class="ledger-bar"><i></i></span>
+        </a>
+        <a class="ledger-row" data-platform="youtube" data-label="YouTube" href="https://www.youtube.com/@mxjclabs" target="_blank" rel="noopener">
+          <span class="ledger-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4.5"/><path d="M10 9.2 15.6 12 10 14.8Z" fill="currentColor" stroke="none"/></svg></span>
+          <span class="ledger-name">YouTube</span>
+          <span class="ledger-count" data-count>0</span>
+          <span class="ledger-bar"><i></i></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 — Contact -->
+  <section id="contact" class="sheet contact" data-sheet="Contact">
+    <header class="sheet-head" aria-hidden="true"><span class="sheet-no">05</span><span class="sheet-rule"></span><span>Contact</span></header>
+
+    <div class="contact-grid">
+      <div>
+        <h2 class="contact-title">Let's talk <em>robots</em>.</h2>
+        <p class="contact-sub">
+          Build updates go up here first.
+        </p>
+      </div>
+      <nav class="contact-links" aria-label="Profiles">
+        <a href="https://www.instagram.com/mxjclabs/" target="_blank" rel="noopener" class="row-link">Instagram <span>→</span></a>
+        <a href="https://www.tiktok.com/@mxjc.labs" target="_blank" rel="noopener" class="row-link">TikTok <span>→</span></a>
+        <a href="https://www.youtube.com/@mxjclabs" target="_blank" rel="noopener" class="row-link">YouTube <span>→</span></a>
+        <a href="https://www.linkedin.com/in/maximilian-jakob-clari-4214042a8" target="_blank" rel="noopener" class="row-link">LinkedIn <span>→</span></a>
+      </nav>
     </div>
   </section>
 
@@ -249,13 +291,13 @@
 <div class="modal" id="modal" hidden>
   <div class="modal-backdrop" data-close></div>
   <div class="modal-panel" role="dialog" aria-modal="true">
-    <button class="modal-close" data-close aria-label="Close">✕</button>
+    <button class="modal-close" data-close type="button" aria-label="Close"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
     <div class="modal-body" id="modal-body"></div>
   </div>
 </div>
 
 <template id="modal-act">
-  <span class="modal-tag tag-early"><i></i>V0.1 · DONE</span>
+  <span class="tag tag-early"><i></i>V0.1 · DONE</span>
   <h2 class="modal-title">ACT Policy Trainer</h2>
   <p class="modal-lead">
     A feasibility test: could I get an ACT policy working at all? 50 teleoperated
@@ -264,33 +306,33 @@
     still open.
   </p>
 
-  <div class="modal-specs">
-    <div><span>Demonstrations</span><strong>50 teleoperated</strong></div>
-    <div><span>Inputs</span><strong>2 camera views + joint states</strong></div>
-    <div><span>Policy</span><strong>Action Chunking Transformer</strong></div>
-    <div><span>Task</span><strong>Pick &amp; place</strong></div>
-  </div>
+  <dl class="modal-specs">
+    <div><dt>Demonstrations</dt><dd>50 teleoperated</dd></div>
+    <div><dt>Inputs</dt><dd>2 camera views + joint states</dd></div>
+    <div><dt>Policy</dt><dd>Action Chunking Transformer</dd></div>
+    <div><dt>Task</dt><dd>Pick &amp; place</dd></div>
+  </dl>
 
   <div class="modal-links">
-    <a href="https://www.instagram.com/reel/Dcv7LLGM_wV/" target="_blank" rel="noopener" class="mag-link">Watch on Instagram <span>→</span></a>
-    <a href="https://www.tiktok.com/@mxjc.labs" target="_blank" rel="noopener" class="mag-link">Watch on TikTok <span>→</span></a>
+    <a href="https://www.instagram.com/reel/Dcv7LLGM_wV/" target="_blank" rel="noopener" class="arrow-link">Watch on Instagram <span>→</span></a>
+    <a href="https://www.tiktok.com/@mxjc.labs" target="_blank" rel="noopener" class="arrow-link">Watch on TikTok <span>→</span></a>
   </div>
 </template>
 
 <template id="modal-chess">
-  <span class="modal-tag tag-live"><i></i>IN_DEVELOPMENT</span>
+  <span class="tag tag-live"><i></i>IN_DEVELOPMENT</span>
   <h2 class="modal-title">SO-101 Plays Chess</h2>
   <p class="modal-lead">
     A robot arm that plays chess against a human on a physical board.
     Currently being built.
   </p>
 
-  <div class="modal-specs">
-    <div><span>Status</span><strong>Board done, building the pieces</strong></div>
-    <div><span>Hardware</span><strong>LeRobot SO-101</strong></div>
-    <div><span>Board</span><strong>3D-printed, magnetic pieces</strong></div>
-    <div><span>Method</span><strong>Still being figured out</strong></div>
-  </div>
+  <dl class="modal-specs">
+    <div><dt>Status</dt><dd>Board done, building the pieces</dd></div>
+    <div><dt>Hardware</dt><dd>LeRobot SO-101</dd></div>
+    <div><dt>Board</dt><dd>3D-printed, magnetic pieces</dd></div>
+    <div><dt>Method</dt><dd>Still being figured out</dd></div>
+  </dl>
 
   <h3 class="modal-h3">What still needs solving</h3>
   <ol class="modal-steps">
@@ -301,7 +343,7 @@
   </ol>
 
   <div class="modal-links">
-    <a href="https://www.instagram.com/mxjclabs/" target="_blank" rel="noopener" class="mag-link">Follow the build <span>→</span></a>
+    <a href="https://www.instagram.com/mxjclabs/" target="_blank" rel="noopener" class="arrow-link">Follow the build <span>→</span></a>
   </div>
 </template>
 
