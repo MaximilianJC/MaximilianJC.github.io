@@ -156,34 +156,81 @@ document.fonts.ready.then(measureTitles);
 addEventListener("resize", measureTitles);
 
 // ---- Reach ledger ----
+// Numbers count up from zero the first time the section comes into view, with
+// the bars growing alongside. Hovering a row interrupts the count and shows
+// that platform on its own.
 const reachGrid = document.getElementById("reach-grid");
 const totalEl = document.getElementById("reach-total");
 const labelEl = document.getElementById("reach-label");
 const updatedEl = document.getElementById("reach-updated");
 const ledgerRows = [...document.querySelectorAll(".ledger-row")];
 const fmt = n => n.toLocaleString("en-US");
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COUNT_DURATION = 1400;
+
+// One token per element: starting a new count or setting a value directly
+// makes any count still running on that element stop.
+const countTokens = new WeakMap();
+
+function setNumber(el, n) {
+  countTokens.set(el, (countTokens.get(el) || 0) + 1);
+  el.textContent = fmt(n);
+}
+
+function countUp(el, to) {
+  setNumber(el, reduceMotion ? to : 0);
+  if (reduceMotion) return;
+  const token = countTokens.get(el);
+  const start = performance.now();
+  const step = now => {
+    if (countTokens.get(el) !== token) return;
+    const p = Math.min((now - start) / COUNT_DURATION, 1);
+    el.textContent = fmt(Math.round(to * (1 - Math.pow(1 - p, 3))));
+    if (p < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+let reachData = null;
+let reachInView = false;
+let reachCounted = false;
+
+function runCount() {
+  if (reachCounted || !reachData || !reachInView) return;
+  reachCounted = true;
+  const { counts, total } = reachData;
+  countUp(totalEl, total);
+  ledgerRows.forEach((row, i) => {
+    countUp(row.querySelector("[data-count]"), counts[i]);
+    row.querySelector(".ledger-bar i").style.width = total ? `${(counts[i] / total) * 100}%` : "0";
+  });
+}
+
+new IntersectionObserver((entries, observer) => {
+  if (!entries.some(e => e.isIntersecting)) return;
+  reachInView = true;
+  observer.disconnect();
+  runCount();
+}, { threshold: 0.35 }).observe(reachGrid);
 
 fetch("data/followers.json")
   .then(r => r.json())
   .then(data => {
     const counts = ledgerRows.map(row => Number(data[row.dataset.platform]) || 0);
     const total = counts.reduce((a, b) => a + b, 0);
-    totalEl.textContent = fmt(total);
+    reachData = { counts, total };
 
     ledgerRows.forEach((row, i) => {
-      row.querySelector("[data-count]").textContent = fmt(counts[i]);
-      row.querySelector(".ledger-bar i").style.width = total ? `${(counts[i] / total) * 100}%` : "0";
-
       const focus = () => {
         reachGrid.classList.add("focused");
         row.classList.add("on");
-        totalEl.textContent = fmt(counts[i]);
+        setNumber(totalEl, counts[i]);
         labelEl.textContent = row.dataset.label;
       };
       const blur = () => {
         reachGrid.classList.remove("focused");
         row.classList.remove("on");
-        totalEl.textContent = fmt(total);
+        setNumber(totalEl, total);
         labelEl.textContent = "combined followers";
       };
       row.addEventListener("mouseenter", focus);
@@ -196,5 +243,43 @@ fetch("data/followers.json")
       const d = new Date(data.updatedAt);
       updatedEl.textContent = `Auto-synced daily · last updated ${d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}`;
     }
+    runCount();
   })
   .catch(() => {});
+
+// ---- Crosshair cursor (mouse only) ----
+const cursor = document.querySelector(".cursor");
+
+if (cursor && matchMedia("(hover: hover) and (pointer: fine)").matches) {
+  const pin = cursor.querySelector(".cursor-pin");
+  const glow = cursor.querySelector(".cursor-glow");
+  let x = 0, y = 0, gx = 0, gy = 0, frame = 0, seen = false;
+
+  // The cross sits exactly on the pointer; only the glow trails behind it.
+  const trail = () => {
+    gx += (x - gx) * (reduceMotion ? 1 : 0.18);
+    gy += (y - gy) * (reduceMotion ? 1 : 0.18);
+    glow.style.transform = `translate3d(${gx}px, ${gy}px, 0)`;
+    frame = Math.abs(x - gx) + Math.abs(y - gy) > 0.5 ? requestAnimationFrame(trail) : 0;
+  };
+
+  document.documentElement.classList.add("has-cursor");
+
+  addEventListener("pointermove", e => {
+    if (e.pointerType !== "mouse") return;
+    x = e.clientX;
+    y = e.clientY;
+    if (!seen) { gx = x; gy = y; seen = true; }
+    pin.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    cursor.classList.add("is-visible");
+    if (!frame) frame = requestAnimationFrame(trail);
+  }, { passive: true });
+
+  // Hide when the pointer leaves the window, so the cross never freezes at the edge.
+  document.addEventListener("mouseout", e => { if (!e.relatedTarget) cursor.classList.remove("is-visible"); });
+  addEventListener("blur", () => cursor.classList.remove("is-visible"));
+
+  document.addEventListener("pointerover", e => {
+    cursor.classList.toggle("is-hover", !!e.target.closest("a, button, [role='button']"));
+  });
+}

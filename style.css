@@ -51,6 +51,99 @@ body.modal-open,
 body.index-open { overflow: hidden; }
 
 /* --------------------------------------------------------------------------
+   Drawing field: fine registration crosses like the snap points of a CAD
+   workspace, fixed behind the page so the content scrolls over it. Light
+   falls in softly from the top and the edges darken, which gives depth.
+   -------------------------------------------------------------------------- */
+
+.field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 90% 70% at 50% -20%, rgba(233, 229, 219, 0.055), transparent 70%),
+    radial-gradient(ellipse 140% 110% at 50% 45%, transparent 55%, rgba(0, 0, 0, 0.4) 100%);
+}
+
+.field::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96'%3E%3Cpath d='M44 48.5h9M48.5 44v9' stroke='%23e9e5db' stroke-opacity='.13' stroke-width='1'/%3E%3C/svg%3E") 0 0 / 96px 96px;
+  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 40%, #000 25%, transparent 85%);
+  mask-image: radial-gradient(ellipse 85% 75% at 50% 40%, #000 25%, transparent 85%);
+}
+
+/* --------------------------------------------------------------------------
+   Crosshair cursor, fine pointers only. JS adds .has-cursor to <html> once it
+   is running, so without JS the native cursor stays. Over anything clickable
+   the cross turns into a pick box, the way CAD software marks a selection.
+   -------------------------------------------------------------------------- */
+
+html.has-cursor,
+html.has-cursor * { cursor: none !important; }
+
+.cursor {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.cursor.is-visible { opacity: 1; }
+
+.cursor-glow,
+.cursor-pin {
+  position: fixed;
+  top: 0;
+  left: 0;
+  will-change: transform;
+}
+
+.cursor-glow {
+  width: 380px;
+  height: 380px;
+  margin: -190px 0 0 -190px;
+  background: radial-gradient(circle closest-side, rgba(255, 90, 31, 0.075), transparent);
+}
+
+.cursor-pin { width: 0; height: 0; }
+
+.cursor-cross,
+.cursor-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s;
+}
+
+.cursor-cross {
+  width: 21px;
+  height: 21px;
+  margin: -10.5px 0 0 -10.5px;
+  background:
+    linear-gradient(var(--signal), var(--signal)) center / 1px 100% no-repeat,
+    linear-gradient(var(--signal), var(--signal)) center / 100% 1px no-repeat;
+  -webkit-mask-image: radial-gradient(circle, transparent 3px, #000 3.5px);
+  mask-image: radial-gradient(circle, transparent 3px, #000 3.5px);
+}
+
+.cursor-box {
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+  border: 1px solid var(--signal);
+  opacity: 0;
+  transform: scale(0.4) rotate(45deg);
+}
+
+.cursor.is-hover .cursor-cross { opacity: 0; transform: scale(0.4); }
+.cursor.is-hover .cursor-box { opacity: 1; transform: none; }
+
+/* --------------------------------------------------------------------------
    Intro splash
    -------------------------------------------------------------------------- */
 
@@ -74,7 +167,7 @@ body.index-open { overflow: hidden; }
 .splash-line {
   font-family: var(--display);
   font-weight: 500;
-  font-size: clamp(26px, 4.4vw, 68px);
+  font-size: clamp(24px, 3.7vw, 56px);
   line-height: 1.14;
   letter-spacing: -0.02em;
   max-width: 19ch;
@@ -245,7 +338,7 @@ body.index-open { overflow: hidden; }
   border-bottom: 1px solid var(--line);
   font-family: var(--display);
   font-weight: 500;
-  font-size: clamp(24px, 7.5vw, 40px);
+  font-size: clamp(22px, 6.6vw, 34px);
   letter-spacing: -0.01em;
 }
 
@@ -298,8 +391,8 @@ main { padding-top: var(--strip); }
 .section-title {
   font-family: var(--display);
   font-weight: 500;
-  font-size: clamp(28px, 3.4vw, 52px);
-  line-height: 1.06;
+  font-size: clamp(24px, 2.8vw, 42px);
+  line-height: 1.08;
   letter-spacing: -0.015em;
   max-width: 16ch;
   margin-bottom: clamp(40px, 5vw, 80px);
@@ -352,9 +445,9 @@ main { padding-top: var(--strip); }
 
 .headline {
   font-family: var(--display);
-  font-weight: 600;
-  font-size: clamp(34px, 6.2vw, 100px);
-  line-height: 1;
+  font-weight: 500;
+  font-size: clamp(30px, 5.1vw, 82px);
+  line-height: 1.02;
   letter-spacing: -0.03em;
 }
 
@@ -474,8 +567,8 @@ main { padding-top: var(--strip); }
   margin-bottom: 18px;
   font-family: var(--display);
   font-weight: 500;
-  font-size: clamp(24px, 2.5vw, 38px);
-  line-height: 1.08;
+  font-size: clamp(22px, 2.1vw, 32px);
+  line-height: 1.1;
   letter-spacing: -0.015em;
 }
 
@@ -586,7 +679,7 @@ main { padding-top: var(--strip); }
 
 .project-small { padding-top: 14px; border-top: 1px solid var(--line-2); }
 .project-small .project-head { margin-bottom: 44px; }
-.project-small .project-title { font-size: clamp(20px, 1.7vw, 26px); }
+.project-small .project-title { font-size: clamp(19px, 1.5vw, 23px); }
 
 .stack { padding-top: 14px; border-top: 1px solid var(--line); }
 .stack .tag { margin-bottom: 20px; }
@@ -721,8 +814,8 @@ main { padding-top: var(--strip); }
 
 .reach-num {
   font-family: var(--display);
-  font-weight: 600;
-  font-size: clamp(56px, 8.5vw, 136px);
+  font-weight: 500;
+  font-size: clamp(48px, 7vw, 112px);
   line-height: 0.92;
   letter-spacing: -0.035em;
   font-variant-numeric: tabular-nums;
@@ -781,7 +874,7 @@ main { padding-top: var(--strip); }
   left: 0;
   width: 0;
   background: var(--ink-3);
-  transition: width 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.2s;
+  transition: width 1.4s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.2s;
 }
 
 .ledger-row.on .ledger-icon,
@@ -804,8 +897,8 @@ main { padding-top: var(--strip); }
 
 .contact-title {
   font-family: var(--display);
-  font-weight: 600;
-  font-size: clamp(40px, 7vw, 112px);
+  font-weight: 500;
+  font-size: clamp(34px, 5.6vw, 90px);
   line-height: 0.98;
   letter-spacing: -0.03em;
 }
@@ -998,8 +1091,8 @@ main { padding-top: var(--strip); }
 .legal h1 {
   margin-bottom: 36px;
   font-family: var(--display);
-  font-weight: 600;
-  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 500;
+  font-size: clamp(30px, 4.2vw, 48px);
   letter-spacing: -0.025em;
 }
 

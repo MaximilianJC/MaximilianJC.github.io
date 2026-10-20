@@ -1,8 +1,13 @@
 name: Update follower count
 
 on:
+  # 23:59 Berlin time. Cron only speaks UTC and ignores daylight saving, so both
+  # candidate times are scheduled and the gate below lets through only the one
+  # that matches Berlin's current offset (21:59 UTC in summer, 22:59 in winter).
+  # GitHub may start scheduled runs a few minutes late under load.
   schedule:
-    - cron: "0 6 * * *"
+    - cron: "59 21 * * *"
+    - cron: "59 22 * * *"
   workflow_dispatch:
 
 permissions:
@@ -23,17 +28,31 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
+      - name: Gate to 23:59 Berlin time
+        id: gate
+        env:
+          SCHEDULE: ${{ github.event.schedule }}
+        run: |
+          offset=$(TZ=Europe/Berlin date +%z)
+          case "$SCHEDULE|$offset" in
+            "59 21 * * *|+0200"|"59 22 * * *|+0100"|"|"*) echo "go=true" >> "$GITHUB_OUTPUT" ;;
+            *) echo "go=false" >> "$GITHUB_OUTPUT" ;;
+          esac
       # Pinned to an exact commit: a moving tag could be repointed at
       # malicious code, which would run with write access and the secrets.
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        if: steps.gate.outputs.go == 'true'
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        if: steps.gate.outputs.go == 'true'
         with:
           node-version: 20
       - run: node scripts/update-followers.mjs
+        if: steps.gate.outputs.go == 'true'
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           BEHOLD_FEED_URL: ${{ secrets.BEHOLD_FEED_URL }}
       - name: Commit updated follower count
+        if: steps.gate.outputs.go == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
