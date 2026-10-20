@@ -141,20 +141,6 @@ document.addEventListener("keydown", e => {
   else if (!index.hidden) setIndex(false);
 });
 
-// ---- Dimension lines ----
-// The hover annotation shows each project title's real rendered width.
-// CSS pixels are defined as 1/96 inch, which makes the millimetres exact.
-const MM_PER_PX = 25.4 / 96;
-
-function measureTitles() {
-  document.querySelectorAll("[data-dim]").forEach(el => {
-    el.dataset.mm = `${(el.getBoundingClientRect().width * MM_PER_PX).toFixed(1)} mm`;
-  });
-}
-
-document.fonts.ready.then(measureTitles);
-addEventListener("resize", measureTitles);
-
 // ---- Reach ledger ----
 // Numbers count up from zero the first time the section comes into view, with
 // the bars growing alongside. Hovering a row interrupts the count and shows

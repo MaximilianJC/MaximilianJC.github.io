@@ -562,7 +562,6 @@ main { padding-top: var(--strip); }
 .project-text { display: flex; flex-direction: column; align-items: flex-start; }
 
 .project-title {
-  position: relative;
   display: inline-block;
   margin-bottom: 18px;
   font-family: var(--display);
@@ -603,8 +602,8 @@ main { padding-top: var(--strip); }
 
 .board {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  grid-template-rows: auto auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-rows: auto auto auto;
   gap: 6px;
   align-self: center;
   justify-self: end;
@@ -613,8 +612,8 @@ main { padding-top: var(--strip); }
 }
 
 .board-ranks, .board-files { display: flex; justify-content: space-around; }
-.board-ranks { grid-column: 1; grid-row: 1; flex-direction: column; }
-.board-files { grid-column: 2; grid-row: 2; }
+.board-ranks { grid-column: 1; grid-row: 2; flex-direction: column; }
+.board-files { grid-column: 2; grid-row: 3; }
 
 .board-ranks b, .board-files b {
   font-family: var(--mono);
@@ -627,7 +626,7 @@ main { padding-top: var(--strip); }
 
 .board-viz {
   grid-column: 2;
-  grid-row: 1;
+  grid-row: 2;
   position: relative;
   aspect-ratio: 1;
   overflow: hidden;
@@ -660,6 +659,69 @@ main { padding-top: var(--strip); }
     linear-gradient(var(--signal), var(--signal)) 100% 100% / 12px 1px no-repeat,
     linear-gradient(var(--signal), var(--signal)) 100% 100% / 1px 12px no-repeat;
 }
+
+/* Dimension lines with the board's real size (8 squares of 32 mm). */
+.dim {
+  position: relative;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  transition: color 0.2s;
+}
+
+.dim b {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 0 6px;
+  background: var(--paper);
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.dim-h {
+  grid-column: 2;
+  grid-row: 1;
+  height: 15px;
+  margin-bottom: 4px;
+  border-left: 1px solid currentColor;
+  border-right: 1px solid currentColor;
+}
+
+.dim-h::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: currentColor;
+}
+
+.dim-h b { transform: translate(-50%, -50%); }
+
+.dim-v {
+  grid-column: 3;
+  grid-row: 2;
+  width: 15px;
+  margin-left: 4px;
+  border-top: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+}
+
+.dim-v::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: currentColor;
+}
+
+.dim-v b { padding: 6px 0; transform: translate(-50%, -50%) rotate(180deg); writing-mode: vertical-rl; }
 
 @keyframes board-scan {
   0%   { transform: translateY(-110%); }
@@ -703,50 +765,11 @@ main { padding-top: var(--strip); }
   color: var(--signal);
 }
 
-/* The one hover detail: a dimension line measuring the title in millimetres. */
 @media (hover: hover) {
   .project-main:hover { border-color: var(--line-2); }
   .project:hover .project-open { color: var(--signal); }
   .project:hover .project-open i { transform: translateX(5px); }
-
-  .project-title::before,
-  .project-title::after {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-
-  .project-title::before {
-    content: "";
-    left: 0;
-    right: 0;
-    top: -14px;
-    height: 9px;
-    border-left: 1px solid var(--signal);
-    border-right: 1px solid var(--signal);
-    background: linear-gradient(var(--signal), var(--signal)) center / 100% 1px no-repeat;
-    transform: scaleX(0.9);
-  }
-
-  .project-title::after {
-    content: attr(data-mm);
-    left: 50%;
-    top: -31px;
-    padding: 0 6px;
-    background: var(--paper);
-    font-family: var(--mono);
-    font-weight: 400;
-    font-size: 10px;
-    letter-spacing: 0.06em;
-    line-height: 1.6;
-    color: var(--signal);
-    white-space: nowrap;
-    transform: translate(-50%, 4px);
-  }
-
-  .project:hover .project-title::before { opacity: 1; transform: none; }
-  .project:hover .project-title::after { opacity: 1; transform: translate(-50%, 0); }
+  .project-main:hover .dim { color: var(--signal); }
 }
 
 /* --------------------------------------------------------------------------
