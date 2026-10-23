@@ -44,7 +44,6 @@ function splitWords(el) {
 
 splitWords(splashLine);
 document.body.classList.add("splash-active");
-requestAnimationFrame(() => splashLine.classList.add("visible"));
 
 let splashDone = false;
 function dismissSplash() {
@@ -54,8 +53,23 @@ function dismissSplash() {
   document.body.classList.remove("splash-active");
 }
 
+// GitHub Pages lets browsers cache files for only ten minutes, so on many
+// visits the font is fetched again. Starting before it arrives would show the
+// line in a fallback face and then visibly swap it. Wait for it instead, but
+// never longer than FONT_WAIT so a slow connection can't hold the page.
+const FONT_WAIT = 1200;
 const wordCount = splashLine.querySelectorAll(".kw").length;
-setTimeout(dismissSplash, wordCount * WORD_STAGGER + WORD_TRANSITION + HOLD_AFTER_LAST_WORD);
+
+function startSplash() {
+  if (splashDone) return;
+  requestAnimationFrame(() => splashLine.classList.add("visible"));
+  setTimeout(dismissSplash, wordCount * WORD_STAGGER + WORD_TRANSITION + HOLD_AFTER_LAST_WORD);
+}
+
+Promise.race([
+  document.fonts.load('500 1em "Panchang"').catch(() => {}),
+  new Promise(resolve => setTimeout(resolve, FONT_WAIT)),
+]).then(startSplash);
 splash.addEventListener("click", dismissSplash);
 addEventListener("keydown", dismissSplash, { once: true });
 addEventListener("wheel", dismissSplash, { once: true, passive: true });

@@ -8,6 +8,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23111110%22/><text x=%2250%25%22 y=%2260%25%22 font-size=%2258%22 font-family=%22monospace%22 text-anchor=%22middle%22 fill=%22%23ff5a1f%22>M</text></svg>">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' data:; style-src 'self'; font-src 'self'; script-src 'self'; connect-src 'self'; form-action 'none'; base-uri 'none'">
+<link rel="preload" href="assets/fonts/panchang-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="fonts.css">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -197,13 +198,24 @@
         <div class="log-entry">
           <span class="log-date log-date-soon">Video coming soon</span>
           <div>
-            <h3 class="log-title">Building the pieces</h3>
+            <h3 class="log-title">Recording training data</h3>
             <p class="log-desc">
-              Printing the pieces next. Each one gets a magnet so the arm has an
-              easier time grabbing it.
+              Next up: recording teleoperated demonstrations on the real board,
+              then training the first ACT policy on them.
             </p>
           </div>
         </div>
+
+        <a class="log-entry" href="https://www.instagram.com/reel/DezQx9fMhCl/" target="_blank" rel="noopener">
+          <span class="log-date">2026-10-22</span>
+          <div>
+            <h3 class="log-title">Pieces and camera mount done</h3>
+            <p class="log-desc">
+              All pieces printed, each with a magnet so the arm has an easier time
+              grabbing them. Plus a top-down mount for the camera above the board.
+            </p>
+          </div>
+        </a>
 
         <a class="log-entry" href="https://www.instagram.com/mxjclabs/" target="_blank" rel="noopener">
           <span class="log-date">2026-09-24</span>
@@ -336,10 +348,10 @@
   </p>
 
   <dl class="modal-specs">
-    <div><dt>Status</dt><dd>Board done, building the pieces</dd></div>
+    <div><dt>Status</dt><dd>Recording training data</dd></div>
     <div><dt>Hardware</dt><dd>LeRobot SO-101</dd></div>
     <div><dt>Board</dt><dd>3D-printed, magnetic pieces</dd></div>
-    <div><dt>Method</dt><dd>Still being figured out</dd></div>
+    <div><dt>Method</dt><dd>ACT, first attempt</dd></div>
   </dl>
 
   <h3 class="modal-h3">What still needs solving</h3>
