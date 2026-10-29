@@ -76,7 +76,7 @@ addEventListener("wheel", dismissSplash, { once: true, passive: true });
 addEventListener("touchstart", dismissSplash, { once: true, passive: true });
 
 // ---- Sheet number in the title strip ----
-const sections = [...document.querySelectorAll("main > section[id]")];
+const sections = [...document.querySelectorAll("main > section[data-sheet]")];
 const navLinks = document.querySelectorAll("[data-target]");
 const sheetNum = document.getElementById("sheet-num");
 const sheetName = document.getElementById("sheet-name");
@@ -84,13 +84,16 @@ const sheetName = document.getElementById("sheet-name");
 const sheetObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (!entry.isIntersecting) return;
-    sheetNum.textContent = String(sections.indexOf(entry.target) + 1).padStart(2, "0");
-    sheetName.textContent = entry.target.dataset.sheet;
-    navLinks.forEach(link => link.classList.toggle("active", link.dataset.target === entry.target.id));
+    const current = entry.target.id === "chess-study" ? sections[0] : entry.target;
+    sheetNum.textContent = String(sections.indexOf(current) + 1).padStart(2, "0");
+    sheetName.textContent = current.dataset.sheet;
+    navLinks.forEach(link => link.classList.toggle("active", link.dataset.target === current.id));
   });
 }, { rootMargin: "-45% 0px -50% 0px" });
 
 sections.forEach(section => sheetObserver.observe(section));
+const chessStudy = document.getElementById("chess-study");
+if (chessStudy) sheetObserver.observe(chessStudy);
 
 // ---- Small-screen index ----
 const index = document.getElementById("index");

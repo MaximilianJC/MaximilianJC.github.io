@@ -11,6 +11,7 @@
 <link rel="preload" href="assets/fonts/panchang-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="fonts.css">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="chess.css">
 </head>
 <body>
 
@@ -118,6 +119,35 @@
           <a href="#contact" class="arrow-link">Get in touch <span>→</span></a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- A scroll-driven study of the original, printable chess pieces. -->
+  <section id="chess-study" class="chess-study" aria-labelledby="chess-title">
+    <div class="chess-stage">
+      <div class="chess-heading">
+        <p class="chess-kicker">SO-101 / THE PHYSICAL PIECES</p>
+        <h2 id="chess-title">Designed to move.</h2>
+        <p class="chess-deck">Drawn from scratch. Printed for the real world.</p>
+      </div>
+
+      <div class="chess-viewport" role="img" aria-label="The original custom chess pieces on an eight-by-eight board. Scroll to lift the king, queen, bishop, knight, rook and pawn into a full orbit, then return them to their squares.">
+        <img class="chess-poster" src="assets/chess/poster.webp" width="1440" height="1000" alt="" loading="lazy">
+        <div class="chess-canvas" aria-hidden="true"></div>
+        <div class="chess-labels" aria-hidden="true"></div>
+      </div>
+
+      <div class="chess-caption">
+        <span class="chess-caption-number" aria-hidden="true">01 — 03</span>
+        <p class="chess-caption-title">Every piece, purpose-built.</p>
+        <p class="chess-caption-detail">Six original designs. Made for a robot’s next move.</p>
+      </div>
+      <div class="chess-footer">
+        <span class="chess-scroll-hint">The original chess set</span>
+        <div class="chess-progress" aria-hidden="true"><i></i></div>
+        <a href="#work" class="chess-skip">Skip to work <span aria-hidden="true">↘</span></a>
+      </div>
+      <p class="chess-status" role="status"></p>
     </div>
   </section>
 
@@ -368,5 +398,6 @@
 </template>
 
 <script src="script.js"></script>
+<script type="module" src="chess.js"></script>
 </body>
 </html>
