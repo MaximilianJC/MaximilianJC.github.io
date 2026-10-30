@@ -1,6 +1,6 @@
-import { robotPose } from './robot-motion.mjs?v=cad-2';
-import { ease } from './chess-motion.mjs?v=cad-2';
-import { PALETTES } from './chess-palettes.mjs?v=cad-2';
+import { robotPose } from './robot-motion.mjs?v=cad-3';
+import { ease } from './chess-motion.mjs?v=cad-3';
+import { PALETTES } from './chess-palettes.mjs?v=cad-3';
 
 export async function createRobot(THREE, load = fetch) {
   const baseURL = new URL('./assets/robot/', import.meta.url);
@@ -10,8 +10,8 @@ export async function createRobot(THREE, load = fetch) {
   try {
     const compressed = typeof DecompressionStream !== 'undefined';
     const [manifestResponse, binaryResponse] = await Promise.all([
-      load(new URL('so101.json?v=cad-2', baseURL), { signal: controller.signal }),
-      load(new URL(`so101.bin${compressed ? '.gz' : ''}?v=cad-2`, baseURL), { signal: controller.signal }),
+      load(new URL('so101.json?v=cad-3', baseURL), { signal: controller.signal }),
+      load(new URL(`so101.bin${compressed ? '.gz' : ''}?v=cad-3`, baseURL), { signal: controller.signal }),
     ]);
     if (!manifestResponse.ok || !binaryResponse.ok) throw new Error('Robot asset unavailable');
     const body = compressed ? new Response(binaryResponse.body.pipeThrough(new DecompressionStream('gzip'))) : binaryResponse;

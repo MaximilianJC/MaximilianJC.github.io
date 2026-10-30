@@ -1,4 +1,4 @@
-import { PIECES } from './chess-motion.mjs?v=cad-2';
+import { PIECES } from './chess-motion.mjs?v=cad-3';
 
 // Bound actual framebuffer area, not just DPR: large Retina displays otherwise
 // render millions of invisible pixels. Quality can adapt without changing fps.
@@ -34,7 +34,7 @@ export function indexGeometry(THREE, geometry) {
 export async function loadChessGeometry(THREE, load = fetch) {
   const base = new URL('./assets/chess/', import.meta.url);
   const [metaResponse, binaryResponse] = await Promise.all([
-    load(new URL('geometry.json?v=cad-2', base)), load(new URL('geometry.bin?v=cad-2', base)),
+    load(new URL('geometry.json?v=cad-3', base)), load(new URL('geometry.bin?v=cad-3', base)),
   ]);
   if (!metaResponse.ok || !binaryResponse.ok) throw new Error('Chess geometry unavailable');
   const [meta, buffer] = await Promise.all([metaResponse.json(), binaryResponse.arrayBuffer()]);

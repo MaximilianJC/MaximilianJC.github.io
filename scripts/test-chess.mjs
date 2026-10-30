@@ -4,6 +4,8 @@ import { PIECES, piecePose, floatOffset, TAU } from '../chess-motion.mjs';
 import { STLLoader } from '../assets/vendor/three/STLLoader.js';
 
 assert.equal(new Set(PIECES.map(p => p.id)).size, 6);
+const queen = PIECES.find(p => p.id === 'queen');
+assert.equal((queen.x + 3.5 + queen.z + 3.5 + 1) % 2, 1, 'White queen starts on a light square');
 const loader = new STLLoader();
 let triangles = 0;
 for (let i = 0; i < PIECES.length; i++) {
