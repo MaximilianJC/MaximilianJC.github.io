@@ -22,6 +22,12 @@ and uint16 triangle indices, padded to a four-byte boundary. `so101.json` record
 offsets, counts, joint hierarchy, source fingerprint and component assignments.
 Everything loads from this repository, with no remote model service.
 
+The mounting shim is thin, close-fitting and matte, and the static CAD base has a
+separate subdued material. The Graphite / Original toggle changes the printed
+shell between its neutral finish and Bambu PLA Basic Orange, while servo housings
+and hardware stay dark. Settled joint transforms are reused during idle floating
+and colour transitions. Palette changes never alter the joint poses.
+
 The restrained poses in `../../robot-motion.mjs` are presentation animation,
 not calibrated servo commands or a physics/robot-control simulation. Joint
 structure was also cross-checked against the [upstream SO-101 description](https://github.com/TheRobotStudio/SO-ARM100/tree/main/Simulation/SO101).

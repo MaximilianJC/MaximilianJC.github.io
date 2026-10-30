@@ -7,7 +7,7 @@ export const clamp = x => Math.max(0, Math.min(1, x));
 // than jumping straight to a new animation speed. Stable at 30/60/120 Hz.
 export function followScroll(position, velocity, target, milliseconds) {
   const seconds = Math.max(0, milliseconds) / 1000;
-  const omega = 20;
+  const omega = 16;
   const offset = position - target;
   const impulse = velocity + omega * offset;
   const decay = Math.exp(-omega * seconds);

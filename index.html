@@ -11,7 +11,7 @@
 <link rel="preload" href="assets/fonts/panchang-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="fonts.css">
 <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="chess.css">
+<link rel="stylesheet" href="chess.css?v=materials-1">
 </head>
 <body>
 
@@ -129,10 +129,14 @@
         <p class="chess-kicker">SO-101 / THE PHYSICAL PIECES</p>
         <h2 id="chess-title">Designed to move.</h2>
         <p class="chess-deck">Drawn from scratch. Printed for the real world.</p>
+        <div class="chess-materials" role="group" aria-label="Scene palette">
+          <button type="button" data-palette="graphite" aria-pressed="true"><span class="chess-swatch graphite" aria-hidden="true"></span>Graphite</button>
+          <button type="button" data-palette="original" aria-pressed="false"><span class="chess-swatch original" aria-hidden="true"></span>Original</button>
+        </div>
       </div>
 
       <div class="chess-viewport" role="img" aria-label="The custom chess pieces on an eight-by-eight board, with the SO-101 robot arm behind it.">
-        <img class="chess-poster" src="assets/chess/poster.webp?v=so101-1" width="1440" height="1000" alt="" loading="lazy">
+        <img class="chess-poster" src="assets/chess/poster.webp?v=materials-1" width="1440" height="1000" alt="" loading="lazy">
         <div class="chess-canvas" aria-hidden="true"></div>
         <div class="chess-labels" aria-hidden="true"></div>
       </div>
@@ -398,6 +402,6 @@
 </template>
 
 <script src="script.js"></script>
-<script type="module" src="chess.js?v=so101-1"></script>
+<script type="module" src="chess.js?v=materials-1"></script>
 </body>
 </html>

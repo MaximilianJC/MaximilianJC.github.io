@@ -1,5 +1,6 @@
-import { robotPose } from './robot-motion.mjs?v=so101-1';
-import { ease } from './chess-motion.mjs?v=so101-1';
+import { robotPose } from './robot-motion.mjs?v=materials-1';
+import { ease } from './chess-motion.mjs?v=materials-1';
+import { PALETTES } from './chess-palettes.mjs?v=materials-1';
 
 export async function createRobot(THREE, load = fetch) {
   const baseURL = new URL('./assets/robot/', import.meta.url);
@@ -27,7 +28,11 @@ export async function createRobot(THREE, load = fetch) {
   root.add(cad);
   const shellColour = new THREE.Color(0xa6aba3);
   const shellQuiet = new THREE.Color(0x727b75);
+  const colours = Object.values(PALETTES).map(palette => ({
+    shell: new THREE.Color(palette.robot), quiet: new THREE.Color(palette.robotDim), base: new THREE.Color(palette.robotBase),
+  }));
   const shell = new THREE.MeshStandardMaterial({ color: shellColour, roughness: 0.48, metalness: 0.16, flatShading: true });
+  const baseShell = new THREE.MeshStandardMaterial({ color: colours[0].base, roughness: .78, metalness: .04, flatShading: true });
   const servo = new THREE.MeshStandardMaterial({ color: 0x202626, roughness: 0.36, metalness: 0.28 });
   const metal = new THREE.MeshStandardMaterial({ color: 0x858d8b, roughness: 0.3, metalness: 0.7 });
   const materials = { shell, servo, metal };
@@ -52,24 +57,40 @@ export async function createRobot(THREE, load = fetch) {
     geometry.setAttribute('normal', new THREE.BufferAttribute(new Int16Array(buffer, part.offset + n * 12, n * 3), 3, true));
     geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(buffer, part.offset + n * 18, part.indices), 1));
     geometry.computeBoundingSphere();
-    const mesh = new THREE.Mesh(geometry, materials[part.material]);
+    const mesh = new THREE.Mesh(geometry, part.joint === 0 && part.material === 'shell' ? baseShell : materials[part.material]);
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     joints[part.joint].add(mesh);
   }
-  // Small solid footing for the real CAD base, level with the chessboard's base.
-  const footing = new THREE.Mesh(new THREE.BoxGeometry(3.9, 0.14, 3.3), new THREE.MeshStandardMaterial({ color: 0x252a28, roughness: 0.55, metalness: 0.3 }));
-  footing.position.set(0, -0.07, -0.33);
+  // A close-fitting dark mounting shim, with no bright projecting tray edge.
+  const footing = new THREE.Mesh(new THREE.BoxGeometry(3.58, 0.035, 2.85), new THREE.MeshStandardMaterial({ color: 0x121512, roughness: .9, metalness: 0 }));
+  footing.position.set(0, -0.0175, -0.33);
   footing.castShadow = footing.receiveShadow = true;
   root.add(footing);
+  root.traverse(object => { object.updateMatrix(); object.matrixAutoUpdate = false; });
+  let lastProgress = -1, lastMix = -1;
 
   return {
     root,
-    update(progress) {
-      const angles = robotPose(progress);
-      for (let i = 1; i < joints.length; i++) joints[i].quaternion.setFromAxisAngle(axes[i], angles[i - 1]);
+    update(progress, mix = 0) {
+      if (progress === lastProgress && mix === lastMix) return;
+      if (progress !== lastProgress) {
+        const angles = robotPose(progress);
+        for (let i = 1; i < joints.length; i++) {
+          joints[i].quaternion.setFromAxisAngle(axes[i], angles[i - 1]);
+          joints[i].updateMatrix();
+        }
+      }
+      if (mix !== lastMix) {
+        shellColour.lerpColors(colours[0].shell, colours[1].shell, mix);
+        shellQuiet.lerpColors(colours[0].quiet, colours[1].quiet, mix);
+        baseShell.color.lerpColors(colours[0].base, colours[1].base, mix);
+        shell.roughness = .48 + mix * .13;
+        shell.metalness = .16 * (1 - mix);
+      }
       const orbit = ease(.15, .35, progress) * (1 - ease(.8, .98, progress));
       shell.color.copy(shellColour).lerp(shellQuiet, orbit);
+      lastProgress = progress; lastMix = mix;
     },
   };
 }

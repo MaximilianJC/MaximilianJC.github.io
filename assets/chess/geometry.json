@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "bytes": 348888,
+  "parts": [
+    {
+      "file": "Koenig.stl",
+      "sourceSHA256": "3493037865afb61196f8dd4c3a380e507ada42ff93adc652c0c1237e9c43e28b",
+      "offset": 0,
+      "vertices": 2493,
+      "indices": 14922
+    },
+    {
+      "file": "Dame.stl",
+      "sourceSHA256": "1ab59394103d19e2ba2a989b9e72d5544330f07c183742ec0fe112dcebfbd7e9",
+      "offset": 59760,
+      "vertices": 4112,
+      "indices": 24636
+    },
+    {
+      "file": "Laeufer.stl",
+      "sourceSHA256": "257f73d662c3fcf1a194e0738bdd334597420ffa0382b097f58b1e392f1a1d61",
+      "offset": 158376,
+      "vertices": 2986,
+      "indices": 17880
+    },
+    {
+      "file": "Pferd.stl",
+      "sourceSHA256": "2ad43c0f7a7025e5ed6a788d8f05dab1995bde82c58bb7815aa6704faff6d27b",
+      "offset": 229968,
+      "vertices": 1007,
+      "indices": 6006
+    },
+    {
+      "file": "Turm.stl",
+      "sourceSHA256": "6837b1ed6c7e47b142bd5b2008aae4be0850c3f84038a1e3162ac528edfc638f",
+      "offset": 254064,
+      "vertices": 1228,
+      "indices": 7332
+    },
+    {
+      "file": "Bauer.stl",
+      "sourceSHA256": "53f2b5aa910940cc9258515ff862f59710c4ba79c90d8163f95fc7940f361146",
+      "offset": 283464,
+      "vertices": 2729,
+      "indices": 16338
+    }
+  ]
+}
