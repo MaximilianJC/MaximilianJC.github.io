@@ -1,0 +1,1056 @@
+{
+  "version": 2,
+  "source": "SO101 Assembly.stl",
+  "sourceSHA256": "efe5ed131286e0fa2b95c355886cd9009a34ad5d6a0c7f042a1ba5071f1520cb",
+  "units": "mm",
+  "up": "Z",
+  "sourceTriangles": 752714,
+  "triangles": 54355,
+  "bytes": 1314352,
+  "joints": [
+    {
+      "name": "base",
+      "parent": -1,
+      "pivot": [
+        0,
+        0,
+        0.39429554
+      ],
+      "axis": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "shoulder_pan",
+      "parent": 0,
+      "pivot": [
+        -0.0994228795170784,
+        -7.551668167114258,
+        63.39710235595703
+      ],
+      "axis": [
+        -5.095732607105633e-07,
+        -0.008726023889667044,
+        0.9999619275286523
+      ]
+    },
+    {
+      "name": "shoulder_lift",
+      "parent": 1,
+      "pivot": [
+        -14.621891021728516,
+        -38.86861038208008,
+        119.75733184814453
+      ],
+      "axis": [
+        0.9999619234179774,
+        0.008726162741684642,
+        7.614476105448352e-05
+      ]
+    },
+    {
+      "name": "elbow",
+      "parent": 2,
+      "pivot": [
+        -13.110570907592773,
+        73.5726089477539,
+        148.46482849121094
+      ],
+      "axis": [
+        0.9999238479103093,
+        0.008649621610538328,
+        0.008802410251456965
+      ]
+    },
+    {
+      "name": "wrist_pitch",
+      "parent": 3,
+      "pivot": [
+        -11.028352737426758,
+        -60.576908111572266,
+        152.27857971191406
+      ],
+      "axis": [
+        0.9998476976154309,
+        -0.00015297001220496357,
+        0.017451595150506698
+      ]
+    },
+    {
+      "name": "wrist_roll",
+      "parent": 4,
+      "pivot": [
+        7.061803817749023,
+        -119.74303436279297,
+        152.07366943359375
+      ],
+      "axis": [
+        -5.468226514021648e-07,
+        0.9999612570519942,
+        0.0088025220645392
+      ]
+    },
+    {
+      "name": "gripper",
+      "parent": 5,
+      "pivot": [
+        23.73253059387207,
+        -145.7043914794922,
+        172.06500244140625
+      ],
+      "axis": [
+        0.9999619226407477,
+        -7.600314802284276e-05,
+        0.008726253041302055
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "joint": 0,
+      "material": "metal",
+      "offset": 0,
+      "vertices": 9487,
+      "indices": 20964
+    },
+    {
+      "joint": 0,
+      "material": "servo",
+      "offset": 212696,
+      "vertices": 1790,
+      "indices": 6750
+    },
+    {
+      "joint": 0,
+      "material": "shell",
+      "offset": 258416,
+      "vertices": 4352,
+      "indices": 11079
+    },
+    {
+      "joint": 1,
+      "material": "metal",
+      "offset": 358912,
+      "vertices": 2334,
+      "indices": 6312
+    },
+    {
+      "joint": 1,
+      "material": "servo",
+      "offset": 413548,
+      "vertices": 2009,
+      "indices": 7656
+    },
+    {
+      "joint": 1,
+      "material": "shell",
+      "offset": 465024,
+      "vertices": 3191,
+      "indices": 8526
+    },
+    {
+      "joint": 2,
+      "material": "metal",
+      "offset": 539516,
+      "vertices": 2321,
+      "indices": 6312
+    },
+    {
+      "joint": 2,
+      "material": "servo",
+      "offset": 593920,
+      "vertices": 1882,
+      "indices": 7470
+    },
+    {
+      "joint": 2,
+      "material": "shell",
+      "offset": 642736,
+      "vertices": 2799,
+      "indices": 7458
+    },
+    {
+      "joint": 3,
+      "material": "metal",
+      "offset": 708036,
+      "vertices": 2324,
+      "indices": 6312
+    },
+    {
+      "joint": 3,
+      "material": "servo",
+      "offset": 762492,
+      "vertices": 2002,
+      "indices": 7560
+    },
+    {
+      "joint": 3,
+      "material": "shell",
+      "offset": 813648,
+      "vertices": 2327,
+      "indices": 8964
+    },
+    {
+      "joint": 4,
+      "material": "metal",
+      "offset": 873464,
+      "vertices": 2043,
+      "indices": 5820
+    },
+    {
+      "joint": 4,
+      "material": "servo",
+      "offset": 921880,
+      "vertices": 2030,
+      "indices": 7548
+    },
+    {
+      "joint": 4,
+      "material": "shell",
+      "offset": 973516,
+      "vertices": 2979,
+      "indices": 8964
+    },
+    {
+      "joint": 5,
+      "material": "metal",
+      "offset": 1045068,
+      "vertices": 1900,
+      "indices": 4854
+    },
+    {
+      "joint": 5,
+      "material": "servo",
+      "offset": 1088976,
+      "vertices": 1829,
+      "indices": 7134
+    },
+    {
+      "joint": 5,
+      "material": "shell",
+      "offset": 1136168,
+      "vertices": 2588,
+      "indices": 8322
+    },
+    {
+      "joint": 6,
+      "material": "metal",
+      "offset": 1199396,
+      "vertices": 1802,
+      "indices": 5328
+    },
+    {
+      "joint": 6,
+      "material": "servo",
+      "offset": 1242488,
+      "vertices": 92,
+      "indices": 144
+    },
+    {
+      "joint": 6,
+      "material": "shell",
+      "offset": 1244432,
+      "vertices": 2819,
+      "indices": 9588
+    }
+  ],
+  "components": [
+    {
+      "component": 11,
+      "joint": "elbow",
+      "triangles": 2400
+    },
+    {
+      "component": 13,
+      "joint": "wrist_pitch",
+      "triangles": 2400
+    },
+    {
+      "component": 14,
+      "joint": "wrist_roll",
+      "triangles": 2400
+    },
+    {
+      "component": 15,
+      "joint": "gripper",
+      "triangles": 2288
+    },
+    {
+      "component": 16,
+      "joint": "shoulder_pan",
+      "triangles": 2254
+    },
+    {
+      "component": 17,
+      "joint": "base",
+      "triangles": 2123
+    },
+    {
+      "component": 18,
+      "joint": "shoulder_lift",
+      "triangles": 1898
+    },
+    {
+      "component": 19,
+      "joint": "base",
+      "triangles": 692
+    },
+    {
+      "component": 20,
+      "joint": "base",
+      "triangles": 1230
+    },
+    {
+      "component": 26,
+      "joint": "base",
+      "triangles": 1106
+    },
+    {
+      "component": 27,
+      "joint": "shoulder_pan",
+      "triangles": 1194
+    },
+    {
+      "component": 28,
+      "joint": "wrist_roll",
+      "triangles": 1216
+    },
+    {
+      "component": 29,
+      "joint": "wrist_pitch",
+      "triangles": 1160
+    },
+    {
+      "component": 30,
+      "joint": "shoulder_lift",
+      "triangles": 1234
+    },
+    {
+      "component": 31,
+      "joint": "elbow",
+      "triangles": 1344
+    },
+    {
+      "component": 32,
+      "joint": "base",
+      "triangles": 700
+    },
+    {
+      "component": 33,
+      "joint": "elbow",
+      "triangles": 864
+    },
+    {
+      "component": 34,
+      "joint": "shoulder_pan",
+      "triangles": 1046
+    },
+    {
+      "component": 35,
+      "joint": "shoulder_lift",
+      "triangles": 944
+    },
+    {
+      "component": 36,
+      "joint": "base",
+      "triangles": 880
+    },
+    {
+      "component": 37,
+      "joint": "wrist_pitch",
+      "triangles": 996
+    },
+    {
+      "component": 38,
+      "joint": "wrist_roll",
+      "triangles": 898
+    },
+    {
+      "component": 39,
+      "joint": "base",
+      "triangles": 752
+    },
+    {
+      "component": 49,
+      "joint": "base",
+      "triangles": 574
+    },
+    {
+      "component": 57,
+      "joint": "base",
+      "triangles": 494
+    },
+    {
+      "component": 67,
+      "joint": "gripper",
+      "triangles": 374
+    },
+    {
+      "component": 68,
+      "joint": "shoulder_pan",
+      "triangles": 374
+    },
+    {
+      "component": 69,
+      "joint": "wrist_roll",
+      "triangles": 374
+    },
+    {
+      "component": 70,
+      "joint": "elbow",
+      "triangles": 374
+    },
+    {
+      "component": 71,
+      "joint": "wrist_pitch",
+      "triangles": 374
+    },
+    {
+      "component": 72,
+      "joint": "shoulder_lift",
+      "triangles": 374
+    },
+    {
+      "component": 73,
+      "joint": "base",
+      "triangles": 322
+    },
+    {
+      "component": 74,
+      "joint": "base",
+      "triangles": 322
+    },
+    {
+      "component": 78,
+      "joint": "shoulder_pan",
+      "triangles": 264
+    },
+    {
+      "component": 79,
+      "joint": "base",
+      "triangles": 264
+    },
+    {
+      "component": 80,
+      "joint": "elbow",
+      "triangles": 264
+    },
+    {
+      "component": 81,
+      "joint": "wrist_roll",
+      "triangles": 264
+    },
+    {
+      "component": 82,
+      "joint": "wrist_pitch",
+      "triangles": 264
+    },
+    {
+      "component": 83,
+      "joint": "shoulder_lift",
+      "triangles": 264
+    },
+    {
+      "component": 84,
+      "joint": "shoulder_lift",
+      "triangles": 222
+    },
+    {
+      "component": 85,
+      "joint": "shoulder_pan",
+      "triangles": 222
+    },
+    {
+      "component": 86,
+      "joint": "wrist_roll",
+      "triangles": 222
+    },
+    {
+      "component": 87,
+      "joint": "elbow",
+      "triangles": 222
+    },
+    {
+      "component": 88,
+      "joint": "shoulder_lift",
+      "triangles": 222
+    },
+    {
+      "component": 89,
+      "joint": "shoulder_lift",
+      "triangles": 222
+    },
+    {
+      "component": 90,
+      "joint": "shoulder_pan",
+      "triangles": 222
+    },
+    {
+      "component": 91,
+      "joint": "shoulder_pan",
+      "triangles": 222
+    },
+    {
+      "component": 92,
+      "joint": "shoulder_lift",
+      "triangles": 222
+    },
+    {
+      "component": 93,
+      "joint": "wrist_roll",
+      "triangles": 222
+    },
+    {
+      "component": 94,
+      "joint": "elbow",
+      "triangles": 222
+    },
+    {
+      "component": 95,
+      "joint": "elbow",
+      "triangles": 222
+    },
+    {
+      "component": 96,
+      "joint": "wrist_roll",
+      "triangles": 222
+    },
+    {
+      "component": 97,
+      "joint": "shoulder_pan",
+      "triangles": 222
+    },
+    {
+      "component": 98,
+      "joint": "shoulder_pan",
+      "triangles": 222
+    },
+    {
+      "component": 99,
+      "joint": "shoulder_pan",
+      "triangles": 222
+    },
+    {
+      "component": 100,
+      "joint": "wrist_roll",
+      "triangles": 222
+    },
+    {
+      "component": 101,
+      "joint": "shoulder_pan",
+      "triangles": 222
+    },
+    {
+      "component": 102,
+      "joint": "wrist_roll",
+      "triangles": 222
+    },
+    {
+      "component": 103,
+      "joint": "elbow",
+      "triangles": 222
+    },
+    {
+      "component": 104,
+      "joint": "gripper",
+      "triangles": 222
+    },
+    {
+      "component": 105,
+      "joint": "gripper",
+      "triangles": 222
+    },
+    {
+      "component": 106,
+      "joint": "gripper",
+      "triangles": 222
+    },
+    {
+      "component": 107,
+      "joint": "wrist_pitch",
+      "triangles": 222
+    },
+    {
+      "component": 108,
+      "joint": "wrist_pitch",
+      "triangles": 222
+    },
+    {
+      "component": 109,
+      "joint": "gripper",
+      "triangles": 222
+    },
+    {
+      "component": 110,
+      "joint": "gripper",
+      "triangles": 222
+    },
+    {
+      "component": 111,
+      "joint": "shoulder_lift",
+      "triangles": 222
+    },
+    {
+      "component": 112,
+      "joint": "shoulder_lift",
+      "triangles": 222
+    },
+    {
+      "component": 113,
+      "joint": "shoulder_lift",
+      "triangles": 222
+    },
+    {
+      "component": 114,
+      "joint": "shoulder_lift",
+      "triangles": 222
+    },
+    {
+      "component": 115,
+      "joint": "elbow",
+      "triangles": 222
+    },
+    {
+      "component": 116,
+      "joint": "wrist_pitch",
+      "triangles": 222
+    },
+    {
+      "component": 117,
+      "joint": "elbow",
+      "triangles": 222
+    },
+    {
+      "component": 118,
+      "joint": "wrist_pitch",
+      "triangles": 222
+    },
+    {
+      "component": 119,
+      "joint": "elbow",
+      "triangles": 222
+    },
+    {
+      "component": 120,
+      "joint": "wrist_pitch",
+      "triangles": 222
+    },
+    {
+      "component": 121,
+      "joint": "elbow",
+      "triangles": 222
+    },
+    {
+      "component": 122,
+      "joint": "gripper",
+      "triangles": 222
+    },
+    {
+      "component": 123,
+      "joint": "gripper",
+      "triangles": 222
+    },
+    {
+      "component": 124,
+      "joint": "gripper",
+      "triangles": 222
+    },
+    {
+      "component": 125,
+      "joint": "wrist_pitch",
+      "triangles": 222
+    },
+    {
+      "component": 126,
+      "joint": "wrist_pitch",
+      "triangles": 222
+    },
+    {
+      "component": 127,
+      "joint": "wrist_pitch",
+      "triangles": 222
+    },
+    {
+      "component": 128,
+      "joint": "shoulder_pan",
+      "triangles": 222
+    },
+    {
+      "component": 129,
+      "joint": "elbow",
+      "triangles": 214
+    },
+    {
+      "component": 130,
+      "joint": "shoulder_lift",
+      "triangles": 214
+    },
+    {
+      "component": 131,
+      "joint": "gripper",
+      "triangles": 214
+    },
+    {
+      "component": 132,
+      "joint": "wrist_pitch",
+      "triangles": 214
+    },
+    {
+      "component": 133,
+      "joint": "shoulder_pan",
+      "triangles": 214
+    },
+    {
+      "component": 134,
+      "joint": "base",
+      "triangles": 212
+    },
+    {
+      "component": 135,
+      "joint": "base",
+      "triangles": 212
+    },
+    {
+      "component": 136,
+      "joint": "base",
+      "triangles": 212
+    },
+    {
+      "component": 137,
+      "joint": "base",
+      "triangles": 170
+    },
+    {
+      "component": 138,
+      "joint": "base",
+      "triangles": 170
+    },
+    {
+      "component": 139,
+      "joint": "base",
+      "triangles": 156
+    },
+    {
+      "component": 140,
+      "joint": "base",
+      "triangles": 114
+    },
+    {
+      "component": 145,
+      "joint": "wrist_roll",
+      "triangles": 90
+    },
+    {
+      "component": 146,
+      "joint": "wrist_roll",
+      "triangles": 90
+    },
+    {
+      "component": 159,
+      "joint": "shoulder_pan",
+      "triangles": 82
+    },
+    {
+      "component": 160,
+      "joint": "wrist_roll",
+      "triangles": 82
+    },
+    {
+      "component": 161,
+      "joint": "elbow",
+      "triangles": 82
+    },
+    {
+      "component": 162,
+      "joint": "elbow",
+      "triangles": 82
+    },
+    {
+      "component": 163,
+      "joint": "wrist_roll",
+      "triangles": 82
+    },
+    {
+      "component": 164,
+      "joint": "shoulder_lift",
+      "triangles": 82
+    },
+    {
+      "component": 165,
+      "joint": "shoulder_lift",
+      "triangles": 82
+    },
+    {
+      "component": 166,
+      "joint": "wrist_roll",
+      "triangles": 82
+    },
+    {
+      "component": 167,
+      "joint": "base",
+      "triangles": 82
+    },
+    {
+      "component": 168,
+      "joint": "shoulder_pan",
+      "triangles": 82
+    },
+    {
+      "component": 169,
+      "joint": "shoulder_pan",
+      "triangles": 82
+    },
+    {
+      "component": 170,
+      "joint": "wrist_pitch",
+      "triangles": 82
+    },
+    {
+      "component": 171,
+      "joint": "wrist_pitch",
+      "triangles": 82
+    },
+    {
+      "component": 172,
+      "joint": "base",
+      "triangles": 82
+    },
+    {
+      "component": 173,
+      "joint": "shoulder_lift",
+      "triangles": 82
+    },
+    {
+      "component": 174,
+      "joint": "shoulder_lift",
+      "triangles": 82
+    },
+    {
+      "component": 175,
+      "joint": "base",
+      "triangles": 82
+    },
+    {
+      "component": 176,
+      "joint": "wrist_roll",
+      "triangles": 82
+    },
+    {
+      "component": 177,
+      "joint": "elbow",
+      "triangles": 82
+    },
+    {
+      "component": 178,
+      "joint": "elbow",
+      "triangles": 82
+    },
+    {
+      "component": 179,
+      "joint": "shoulder_pan",
+      "triangles": 82
+    },
+    {
+      "component": 180,
+      "joint": "base",
+      "triangles": 82
+    },
+    {
+      "component": 181,
+      "joint": "base",
+      "triangles": 80
+    },
+    {
+      "component": 182,
+      "joint": "base",
+      "triangles": 80
+    },
+    {
+      "component": 183,
+      "joint": "base",
+      "triangles": 80
+    },
+    {
+      "component": 184,
+      "joint": "base",
+      "triangles": 80
+    },
+    {
+      "component": 185,
+      "joint": "base",
+      "triangles": 80
+    },
+    {
+      "component": 186,
+      "joint": "gripper",
+      "triangles": 320
+    },
+    {
+      "component": 188,
+      "joint": "base",
+      "triangles": 62
+    },
+    {
+      "component": 189,
+      "joint": "base",
+      "triangles": 56
+    },
+    {
+      "component": 190,
+      "joint": "shoulder_lift",
+      "triangles": 48
+    },
+    {
+      "component": 191,
+      "joint": "elbow",
+      "triangles": 48
+    },
+    {
+      "component": 192,
+      "joint": "gripper",
+      "triangles": 48
+    },
+    {
+      "component": 193,
+      "joint": "wrist_pitch",
+      "triangles": 48
+    },
+    {
+      "component": 194,
+      "joint": "wrist_pitch",
+      "triangles": 48
+    },
+    {
+      "component": 195,
+      "joint": "shoulder_pan",
+      "triangles": 48
+    },
+    {
+      "component": 199,
+      "joint": "base",
+      "triangles": 48
+    },
+    {
+      "component": 200,
+      "joint": "base",
+      "triangles": 48
+    },
+    {
+      "component": 201,
+      "joint": "base",
+      "triangles": 48
+    },
+    {
+      "component": 202,
+      "joint": "base",
+      "triangles": 48
+    },
+    {
+      "component": 203,
+      "joint": "base",
+      "triangles": 48
+    },
+    {
+      "component": 204,
+      "joint": "base",
+      "triangles": 48
+    },
+    {
+      "component": 207,
+      "joint": "base",
+      "triangles": 128
+    },
+    {
+      "component": 236,
+      "joint": "base",
+      "triangles": 48
+    },
+    {
+      "component": 237,
+      "joint": "base",
+      "triangles": 48
+    },
+    {
+      "component": 239,
+      "joint": "base",
+      "triangles": 48
+    },
+    {
+      "component": 240,
+      "joint": "base",
+      "triangles": 48
+    },
+    {
+      "component": 244,
+      "joint": "base",
+      "triangles": 48
+    },
+    {
+      "component": 245,
+      "joint": "base",
+      "triangles": 48
+    },
+    {
+      "component": 246,
+      "joint": "base",
+      "triangles": 64
+    },
+    {
+      "component": 247,
+      "joint": "base",
+      "triangles": 64
+    },
+    {
+      "component": 248,
+      "joint": "base",
+      "triangles": 64
+    },
+    {
+      "component": 249,
+      "joint": "base",
+      "triangles": 64
+    },
+    {
+      "component": 250,
+      "joint": "base",
+      "triangles": 48
+    },
+    {
+      "component": 251,
+      "joint": "base",
+      "triangles": 64
+    },
+    {
+      "component": 252,
+      "joint": "base",
+      "triangles": 64
+    },
+    {
+      "component": 253,
+      "joint": "base",
+      "triangles": 64
+    },
+    {
+      "component": 254,
+      "joint": "base",
+      "triangles": 64
+    },
+    {
+      "component": 255,
+      "joint": "base",
+      "triangles": 48
+    },
+    {
+      "component": 256,
+      "joint": "base",
+      "triangles": 48
+    },
+    {
+      "component": 274,
+      "joint": "base",
+      "triangles": 20
+    }
+  ]
+}

@@ -25,7 +25,9 @@ The published scene uses the graphite board, ivory pieces and charcoal opponents
 
 When scrolling settles in the orbit, the six pieces float asynchronously by less than 1 mm in either direction, over roughly six-second cycles. This fades out while scrolling and before landing. Hovering an actual STL surface eases that piece to 106% scale with a subtle orange material tint. Other pieces retain their own materials. Touch scrolling is not intercepted.
 
-The stage uses native scrolling and CSS sticky positioning. Only the visible orbit keeps an idle animation loop (30 fps on small screens); scrolling renders at display rate. Rendering stops outside the viewport, in a hidden tab, or behind the index/modal/splash. Reduced-motion mode keeps a static board and removes the long scroll track and all floating/hover movement. Mobile uses a shorter track, its own framing, a lower pixel ratio, and smaller shadow maps.
+The stage uses native scrolling and CSS sticky positioning. A critically damped analytical spring smooths scroll-wheel steps at any refresh rate. The visible orbit keeps an idle animation loop at display rate, including on small screens; sustained GPU load reduces pixel density instead of imposing a 30 fps motion cap. Idle shadows update less often than the tiny floating movement. Rendering stops outside the viewport, in a hidden tab, or behind the index/modal/splash. Reduced-motion mode keeps a static board and robot and removes the long scroll track and all floating/hover movement. Mobile uses a shorter track, its own framing and a lower pixel ratio.
+
+The robot behind the black pieces comes from the supplied SO-101 assembly. Its source, optimization, measured joints and tests are documented in `../robot/README.md`.
 
 The pre-change site is preserved locally in `backups/portfolio-before-chess-2026-10-29.zip` (Git commit `ca00b67`). Backups and preview captures are ignored by Git. To restore, extract the ZIP into a separate folder before replacing any working files.
 

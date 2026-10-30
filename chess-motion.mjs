@@ -2,6 +2,20 @@
 // Keeping pose calculation separate makes reversal and exact landing testable.
 export const TAU = Math.PI * 2;
 export const clamp = x => Math.max(0, Math.min(1, x));
+
+// Exact critically damped spring: scroll-wheel steps change acceleration rather
+// than jumping straight to a new animation speed. Stable at 30/60/120 Hz.
+export function followScroll(position, velocity, target, milliseconds) {
+  const seconds = Math.max(0, milliseconds) / 1000;
+  const omega = 20;
+  const offset = position - target;
+  const impulse = velocity + omega * offset;
+  const decay = Math.exp(-omega * seconds);
+  const next = target + (offset + impulse * seconds) * decay;
+  const speed = (velocity - omega * impulse * seconds) * decay;
+  if (Math.abs(next - target) < 0.000002 && Math.abs(speed) < 0.00002) return { position: target, velocity: 0 };
+  return { position: clamp(next), velocity: next < 0 || next > 1 ? 0 : speed };
+}
 export function ease(from, to, progress) {
   const t = clamp((progress - from) / (to - from));
   return t * t * t * (t * (t * 6 - 15) + 10);
