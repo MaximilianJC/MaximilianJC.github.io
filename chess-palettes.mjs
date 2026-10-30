@@ -3,7 +3,7 @@
 export const PALETTES = {
   graphite: {
     tiles: [0x222724, 0x68685f], opponent: 0x323835, opponentDim: 0x202622,
-    robot: 0xa6aba3, robotDim: 0x92988f,
+    robot: 0xff6a13, robotDim: 0xc25319,
     poster: 'assets/chess/poster.webp',
   },
   original: {

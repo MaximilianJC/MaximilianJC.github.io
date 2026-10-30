@@ -1,6 +1,6 @@
 import { robotPose } from './robot-motion.mjs?v=cad-3';
 import { ease } from './chess-motion.mjs?v=cad-3';
-import { PALETTES } from './chess-palettes.mjs?v=cad-3';
+import { PALETTES } from './chess-palettes.mjs?v=studio-1';
 
 export async function createRobot(THREE, load = fetch) {
   const baseURL = new URL('./assets/robot/', import.meta.url);
@@ -28,12 +28,12 @@ export async function createRobot(THREE, load = fetch) {
   cad.rotation.x = -Math.PI / 2;
   cad.scale.setScalar(1 / 32);
   root.add(cad);
-  const shellColour = new THREE.Color(0xa6aba3);
-  const shellQuiet = new THREE.Color(0x727b75);
+  const shellColour = new THREE.Color(PALETTES.graphite.robot);
+  const shellQuiet = new THREE.Color(PALETTES.graphite.robotDim);
   const colours = Object.values(PALETTES).map(palette => ({
     shell: new THREE.Color(palette.robot), quiet: new THREE.Color(palette.robotDim),
   }));
-  const shell = new THREE.MeshStandardMaterial({ color: shellColour, roughness: 0.48, metalness: 0.16 });
+  const shell = new THREE.MeshStandardMaterial({ color: shellColour, roughness: 0.61, metalness: 0 });
   const servo = new THREE.MeshStandardMaterial({ color: 0x202626, roughness: 0.36, metalness: 0.28 });
   const metal = new THREE.MeshStandardMaterial({ color: 0x858d8b, roughness: 0.3, metalness: 0.7 });
   const materials = { shell, servo, metal };
@@ -86,8 +86,6 @@ export async function createRobot(THREE, load = fetch) {
       if (mix !== lastMix) {
         shellColour.lerpColors(colours[0].shell, colours[1].shell, mix);
         shellQuiet.lerpColors(colours[0].quiet, colours[1].quiet, mix);
-        shell.roughness = .48 + mix * .13;
-        shell.metalness = .16 * (1 - mix);
       }
       const orbit = ease(.15, .35, progress) * (1 - ease(.8, .98, progress));
       shell.color.copy(shellColour).lerp(shellQuiet, orbit);

@@ -29,7 +29,7 @@ same uncompressed geometry. Everything loads from this repository, with no
 remote model service.
 
 The mounting shim is thin, close-fitting and matte. Every printed part, including
-the complete static CAD base, shares the same white or orange shell material.
+the complete static CAD base, shares the same orange shell material in both views.
 Only actual servo housings and hardware remain dark/metallic. The white chess set
 starts on the robot's side. Settled joint transforms are reused during idle
 floating and colour transitions. Palette changes never alter the joint poses.

@@ -1,5 +1,5 @@
 import { PIECES, piecePose, floatOffset, orbitPresence, ease, clamp, followScroll } from './chess-motion.mjs?v=cad-3';
-import { PALETTES, paletteFromSearch, paletteURL } from './chess-palettes.mjs?v=cad-3';
+import { PALETTES, paletteFromSearch, paletteURL } from './chess-palettes.mjs?v=studio-1';
 import { loadChessGeometry, createChessSet, pixelRatioFor, frameDelta } from './chess-render.mjs?v=cad-3';
 
 const section = document.querySelector('.chess-study');
@@ -24,7 +24,7 @@ function selectPalette(key, updateURL = true) {
   section.dataset.palette = selectedPalette;
   paletteButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.palette === selectedPalette)));
   if (!section.classList.contains('is-ready')) {
-    section.querySelector('.chess-poster').src = `${PALETTES[selectedPalette].poster}?v=cad-3`;
+    section.querySelector('.chess-poster').src = `${PALETTES[selectedPalette].poster}?v=studio-1`;
   }
   if (updateURL) history.replaceState(null, '', paletteURL(location.href, selectedPalette));
   wakeScene();
@@ -63,7 +63,7 @@ async function init() {
   try {
     const [THREE, { createRobot }] = await Promise.all([
       import('./assets/vendor/three/three.module.min.js'),
-      import('./robot.js?v=cad-3'),
+      import('./robot.js?v=studio-1'),
     ]);
     const narrow = () => viewport.clientWidth < 800;
     renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'high-performance' });

@@ -50,7 +50,7 @@
 .chess-materials button:hover { color: var(--ink); background: #ffffff0b; }
 .chess-materials button:focus-visible { outline: 1px solid var(--signal); outline-offset: 4px; }
 .chess-swatch { width: 12px; height: 12px; display: inline-block; opacity: .85; }
-.chess-swatch.graphite { background: linear-gradient(90deg, #e3dfd2 50%, #444b45 50%); }
+.chess-swatch.graphite { background: linear-gradient(90deg, #ff6a13 34%, #e3dfd2 34% 67%, #444b45 67%); }
 .chess-swatch.original { background: linear-gradient(90deg, #ff6a13 34%, #57cedb 34% 67%, #f29bbf 67%); }
 .chess-viewport { position: absolute; inset: 100px 0 64px; }
 .chess-canvas, .chess-poster, .chess-labels { position: absolute; inset: 0; width: 100%; height: 100%; }
