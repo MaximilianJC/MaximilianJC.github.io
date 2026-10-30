@@ -4,7 +4,7 @@ import { gunzipSync } from 'node:zlib';
 import * as THREE from '../assets/vendor/three/three.module.min.js';
 import { createRobot } from '../robot.js';
 import { robotPose } from '../robot-motion.mjs';
-import { followScroll, piecePose } from '../chess-motion.mjs';
+import { followScroll, piecePose, orbitPresence } from '../chess-motion.mjs';
 
 const data = JSON.parse(await readFile(new URL('../assets/robot/so101.json', import.meta.url)));
 const binary = await readFile(new URL('../assets/robot/so101.bin', import.meta.url));
@@ -44,17 +44,21 @@ for (let step = 0; step <= 200; step++) {
   previous = angles;
   robot.update(p); robot.root.updateMatrixWorld(true);
   const pieces = Array.from({ length: 6 }, (_, i) => piecePose(i, p));
+  // Cover every idle phase and the 106% pointer highlight, not just the
+  // centreline of the scroll path.
+  const floatMargin = .1 * orbitPresence(p), radius = .315 * 1.06;
+  const top = 1.75 * 1.06 + floatMargin;
   for (const mesh of meshList) {
     const bounds = new THREE.Box3().setFromObject(mesh);
     assert.ok(bounds.min.y > -.5, 'The arm and footing stay above the ground');
-    const possible = pieces.filter(pose => pose.x > bounds.min.x - .32 && pose.x < bounds.max.x + .32
-      && pose.z > bounds.min.z - .32 && pose.z < bounds.max.z + .32 && pose.y < bounds.max.y && pose.y + 1.75 > bounds.min.y);
+    const possible = pieces.filter(pose => pose.x > bounds.min.x - radius && pose.x < bounds.max.x + radius
+      && pose.z > bounds.min.z - radius && pose.z < bounds.max.z + radius && pose.y - floatMargin < bounds.max.y && pose.y + top > bounds.min.y);
     if (!possible.length) continue;
     const pos = mesh.geometry.attributes.position;
     for (let i = 0; i < pos.count; i++) {
       point.fromBufferAttribute(pos, i).applyMatrix4(mesh.matrixWorld);
       for (const pose of possible) {
-        if (point.y > pose.y && point.y < pose.y + 1.75 && Math.hypot(point.x - pose.x, point.z - pose.z) < .315) collisionCandidates++;
+        if (point.y > pose.y - floatMargin && point.y < pose.y + top && Math.hypot(point.x - pose.x, point.z - pose.z) < radius) collisionCandidates++;
       }
     }
   }

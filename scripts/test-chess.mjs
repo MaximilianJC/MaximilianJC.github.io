@@ -67,17 +67,20 @@ console.log(`PASS: six source STLs (${triangles.toLocaleString()} triangles), ex
 
 for (let i = 0; i < PIECES.length; i++) {
   let previousFloat = floatOffset(i, 0, 0.55);
+  const firstCycle = [];
   for (let step = 0; step <= 1200; step++) {
     const seconds = step / 10;
     const offset = floatOffset(i, seconds, 0.55);
-    assert.ok(Math.abs(offset) <= 0.0300001, 'Idle float stays below 1 mm in either direction');
-    assert.ok(Math.abs(offset - previousFloat) < 0.0032, 'Idle float has no sudden movement');
+    assert.ok(Math.abs(offset) <= 3.25 / 32, 'Idle float stays within a subtle 3.25 mm in either direction');
+    assert.ok(Math.abs(offset - previousFloat) < 0.014, 'Idle float moves less than 0.45 mm per 100 ms');
+    if (seconds <= 7) firstCycle.push(offset);
     for (const p of [0, 0.2, 0.85, 0.95, 1]) {
       assert.equal(Math.abs(floatOffset(i, seconds, p)), 0, 'Idle motion never changes lift-off or landing');
     }
     assert.equal(Math.abs(floatOffset(i, seconds, 0.55, 0)), 0, 'Float can fade out fully while scrolling');
     previousFloat = offset;
   }
+  assert.ok(Math.max(...firstCycle) - Math.min(...firstCycle) > 4.4 / 32, 'Visible movement during one slow idle cycle');
 }
 assert.ok(new Set(PIECES.map((_, i) => floatOffset(i, 1, 0.55).toFixed(5))).size > 4, 'Pieces float out of phase');
 console.log('PASS: subtle asynchronous floating, smooth speed, no drift outside the orbit.');

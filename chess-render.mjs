@@ -1,4 +1,4 @@
-import { PIECES } from './chess-motion.mjs?v=cad-3';
+import { PIECES } from './chess-motion.mjs?v=motion-3';
 
 // Bound actual framebuffer area, not just DPR: large Retina displays otherwise
 // render millions of invisible pixels. Quality can adapt without changing fps.

@@ -1,5 +1,5 @@
-import { robotPose } from './robot-motion.mjs?v=cad-3';
-import { ease } from './chess-motion.mjs?v=cad-3';
+import { robotPose } from './robot-motion.mjs?v=motion-3';
+import { ease } from './chess-motion.mjs?v=motion-3';
 import { PALETTES } from './chess-palettes.mjs?v=studio-1';
 
 export async function createRobot(THREE, load = fetch) {

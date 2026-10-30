@@ -116,18 +116,31 @@ html.chess-piece-hover .cursor-box { opacity: 1; transform: none; }
 @media (min-width: 1001px) {
   .chess-viewport { inset: 0 0 56px 22%; }
 }
+@media (max-width: 1000px) {
+  /* Actual content rows reserve the full heading/control height, including
+     wrapped text. The moving robot can never pass behind the palette buttons. */
+  .chess-stage { display: grid; grid-template-rows: auto minmax(0, 1fr) auto auto; row-gap: 12px; padding: 28px var(--pad) 0; }
+  .chess-heading { position: relative; inset: auto; grid-row: 1; }
+  .chess-materials button { min-height: 44px; }
+  .chess-viewport { position: relative; inset: auto; grid-row: 2; min-height: 0; margin-inline: calc(-1 * var(--pad)); overflow: hidden; }
+  .chess-caption { position: relative; inset: auto; grid-row: 3; }
+  .chess-caption-number { display: block; line-height: 1.4; }
+  .chess-caption-title { line-height: 1.35; }
+  /* Keep two lines reserved as captions change, so the camera never refits
+     halfway through the scroll sequence. */
+  .chess-caption-detail { line-height: 1.5; min-height: 3em; }
+  .chess-footer { position: relative; inset: auto; grid-row: 4; }
+  .chess-status { top: auto; bottom: 72px; }
+}
 @media (max-width: 700px) {
   .chess-study { min-height: 640px; }
   .chess-study.is-enhanced:not(.is-still) { height: 360svh; }
-  .chess-stage { min-height: 600px; }
-  .chess-heading { top: 30px; right: var(--pad); }
+  .chess-stage { min-height: 600px; padding-top: 24px; }
   .chess-kicker { font-size: 9px; margin-bottom: 14px; }
   .chess-heading h2 { font-size: clamp(23px, 6.6vw, 36px); }
   .chess-deck { font-size: 13px; max-width: 29ch; line-height: 1.6; }
   .chess-materials { margin-top: 14px; }
   .chess-materials button { min-height: 44px; padding: 0 12px; font-size: 9px; }
-  .chess-viewport { inset: 148px -6% 152px; }
-  .chess-caption { bottom: 95px; right: var(--pad); }
   .chess-caption-title { font-size: 18px; margin-top: 8px; }
   .chess-caption-detail { font-size: 12px; max-width: 32ch; }
   .chess-footer { gap: 16px; font-size: 9px; }
@@ -137,29 +150,43 @@ html.chess-piece-hover .cursor-box { opacity: 1; transform: none; }
 }
 @media (max-height: 720px) and (max-width: 700px) {
   .chess-study, .chess-stage { min-height: 0; }
-  .chess-heading { top: 22px; }
+  .chess-stage { padding-top: 18px; row-gap: 10px; }
   .chess-heading h2 { font-size: clamp(21px, 6.4vw, 30px); }
   .chess-deck { display: none; }
   .chess-materials { margin-top: 12px; }
-  .chess-viewport { inset: 130px -6% 125px; }
-  .chess-caption { bottom: 76px; }
   .chess-caption-title { font-size: 16px; margin-top: 6px; }
   .chess-caption-detail { font-size: 11px; margin-top: 3px; }
   .chess-footer { height: 54px; }
 }
+@media (min-width: 701px) and (max-width: 1000px) and (orientation: landscape) {
+  .chess-stage { grid-template-columns: minmax(220px, 34%) minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) 66px; column-gap: 20px; }
+  .chess-heading { grid-area: 1 / 1; }
+  .chess-viewport { grid-area: 1 / 2 / 3 / 3; margin: 0 calc(-1 * var(--pad)) 0 0; }
+  .chess-caption { grid-area: 2 / 1; align-self: end; padding-bottom: 4px; }
+  .chess-footer { grid-area: 3 / 1 / 4 / 3; }
+}
 @media (max-height: 560px) and (orientation: landscape) {
   .chess-study { min-height: 0; }
-  .chess-stage { min-height: 0; }
-  .chess-heading { top: 18px; }
+  .chess-stage { min-height: 0; display: grid; grid-template-columns: minmax(220px, 34%) minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) 54px; gap: 12px 20px; padding: 18px var(--pad) 0; }
+  .chess-heading { position: relative; inset: auto; grid-area: 1 / 1; }
   .chess-heading h2 { font-size: 24px; }
   .chess-kicker { margin-bottom: 8px; }
   .chess-deck { display: none; }
   .chess-materials { margin-top: 12px; }
-  .chess-materials button { min-height: 36px; padding: 0 10px; font-size: 9px; }
-  .chess-viewport { inset: 20px 0 58px 20%; }
-  .chess-caption { bottom: 82px; }
-  .chess-caption-detail { max-width: 25ch; }
+  .chess-materials button { min-height: 44px; padding: 0 10px; font-size: 9px; }
+  .chess-viewport { position: relative; inset: auto; grid-area: 1 / 2 / 3 / 3; min-height: 0; margin: 0 calc(-1 * var(--pad)) 0 0; overflow: hidden; }
+  .chess-caption { position: relative; inset: auto; grid-area: 2 / 1; align-self: end; padding-bottom: 4px; }
+  .chess-caption-title { font-size: 16px; line-height: 1.3; margin-top: 6px; }
+  .chess-caption-detail { font-size: 11px; line-height: 1.5; margin-top: 3px; max-width: 25ch; }
+  .chess-footer { position: relative; inset: auto; grid-area: 3 / 1 / 4 / 3; height: 54px; }
   .chess-piece-label { display: none; }
+}
+@media (max-height: 420px) and (orientation: landscape) {
+  .chess-caption-detail { display: none; }
+}
+@media (max-height: 360px) and (orientation: landscape) {
+  .chess-kicker, .chess-caption-number { display: none; }
+  .chess-caption-title { font-size: 15px; margin-top: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   .chess-study.is-ready { height: calc(100svh - var(--strip)); }

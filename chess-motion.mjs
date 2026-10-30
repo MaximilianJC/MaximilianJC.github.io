@@ -26,8 +26,10 @@ export const orbitPresence = progress => ease(0.30, 0.37, progress) * (1 - ease(
 
 export function floatOffset(index, seconds, progress, idle = 1) {
   const phase = index * 1.19;
-  const wave = Math.sin(seconds * TAU / (5.8 + index * 0.19) + phase) * 0.025
-    + Math.sin(seconds * TAU / 9.3 + phase * 0.7) * 0.005;
+  // A few millimetres of travel stay visible on a small screen. Independent,
+  // long cycles keep the six pieces from bobbing in unison.
+  const wave = Math.sin(seconds * TAU / (5.2 + index * 0.17) + phase) * 0.085
+    + Math.sin(seconds * TAU / 8.8 + phase * 0.7) * 0.015;
   return wave * orbitPresence(progress) * clamp(idle);
 }
 

@@ -1,6 +1,6 @@
-import { PIECES, piecePose, floatOffset, orbitPresence, ease, clamp, followScroll } from './chess-motion.mjs?v=cad-3';
+import { PIECES, piecePose, floatOffset, orbitPresence, ease, clamp, followScroll } from './chess-motion.mjs?v=motion-3';
 import { PALETTES, paletteFromSearch, paletteURL } from './chess-palettes.mjs?v=studio-1';
-import { loadChessGeometry, createChessSet, pixelRatioFor, frameDelta } from './chess-render.mjs?v=cad-3';
+import { loadChessGeometry, createChessSet, pixelRatioFor, frameDelta } from './chess-render.mjs?v=motion-3';
 
 const section = document.querySelector('.chess-study');
 const stage = section.querySelector('.chess-stage');
@@ -63,7 +63,7 @@ async function init() {
   try {
     const [THREE, { createRobot }] = await Promise.all([
       import('./assets/vendor/three/three.module.min.js'),
-      import('./robot.js?v=studio-1'),
+      import('./robot.js?v=motion-3'),
     ]);
     const narrow = () => viewport.clientWidth < 800;
     renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'high-performance' });
