@@ -1,4 +1,4 @@
-import { ease } from './chess-motion.mjs?v=materials-1';
+import { ease } from './chess-motion.mjs?v=cad-2';
 
 // Artistic offsets from the supplied folded CAD pose, in degrees. These are
 // presentation poses, not servo commands or a calibrated hardware simulation.

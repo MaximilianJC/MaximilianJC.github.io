@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { gunzipSync } from 'node:zlib';
 import * as THREE from '../assets/vendor/three/three.module.min.js';
 import { createRobot } from '../robot.js';
 import { robotPose } from '../robot-motion.mjs';
@@ -9,14 +10,21 @@ const data = JSON.parse(await readFile(new URL('../assets/robot/so101.json', imp
 const binary = await readFile(new URL('../assets/robot/so101.bin', import.meta.url));
 assert.equal(binary.byteLength, data.bytes);
 assert.equal(data.joints.length, 7);
-assert.ok(binary.byteLength < 1_500_000, 'Robot stays within the mobile asset budget');
-assert.ok(data.triangles < 60_000);
+const compressed = await readFile(new URL('../assets/robot/so101.bin.gz', import.meta.url));
+assert.deepEqual(gunzipSync(compressed), binary, 'Lossless network compression');
+assert.equal(compressed.byteLength, data.compressedBytes);
+assert.ok(compressed.byteLength < 3_500_000, 'Detailed CAD remains a bounded download');
+assert.equal(data.triangles, 312957, 'All retained CAD faces except nine degenerate faces');
+assert.equal(data.components.reduce((n,c)=>n+c.sourceTriangles,0)-data.triangles,9);
 const robot = await createRobot(THREE, async url => {
   const bytes = await readFile(url);
   return new Response(bytes);
 });
 const meshList = [];
 robot.root.traverse(object => { if (object.isMesh) meshList.push(object); });
+const shells = meshList.filter(mesh => mesh.userData.cadMaterial === 'shell');
+assert.equal(new Set(shells.map(mesh => mesh.material)).size, 1, 'All printed parts including the base share one finish');
+assert.ok(shells.every(mesh => !mesh.material.flatShading), 'Use CAD crease normals instead of artificial facets');
 for (const mesh of meshList) {
   const pos = mesh.geometry.attributes.position, normals = mesh.geometry.attributes.normal;
   assert.ok(pos.array.every(Number.isFinite));
@@ -80,4 +88,16 @@ for (let i = 0; i < 600; i++) {
 }
 assert.deepEqual(state, { position: .5, velocity: 0 });
 await assert.rejects(createRobot(THREE, async () => new Response('', { status: 404 })), /unavailable/);
+const decompression = globalThis.DecompressionStream;
+try {
+  globalThis.DecompressionStream = undefined;
+  const loaded = [];
+  const compatible = await createRobot(THREE, async url => {
+    loaded.push(url.pathname);
+    return new Response(await readFile(url));
+  });
+  assert.ok(loaded.some(path => path.endsWith('/so101.bin')), 'Uncompressed path for older browsers');
+  compatible.update(.5);
+  assert.equal(compatible.root.getObjectByName('base').children.length, base.children.length);
+} finally { globalThis.DecompressionStream = decompression; }
 console.log(`PASS: ${data.triangles.toLocaleString()} robot triangles, valid compact buffers, six continuous joints, fixed base, reversible motion, clear piece envelopes, 30/60/120 Hz scroll damping and missing-asset handling.`);

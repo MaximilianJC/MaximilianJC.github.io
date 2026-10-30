@@ -6,9 +6,12 @@ The original 37,635,784-byte file is unchanged on disk. Its SHA-256 is recorded 
 
 The web model retains the actual base, brackets, arm links, servo housings, fixed
 gripper and moving jaw. The source has 752,714 triangles in 311 connected solids.
-The optimized version has 54,355 triangles, 159 retained solids and 21 draw calls;
-the binary geometry is 1,314,352 bytes. Concealed motor internals, flexible wiring
-and small electronic details are omitted. Simplification affects the web copy only.
+The web version has 312,957 triangles, 159 retained solids and 21 draw calls.
+It retains the source surfaces of every included component; only nine degenerate
+faces are removed. No decimation is applied. The export checks the complete
+triangle coordinates and winding before and after calculating crease normals.
+Concealed motor internals, flexible wiring and small electronic details are
+omitted. Smooth normals follow rounded CAD surfaces; sharp edges stay split.
 
 The six pivot axes are measured from the circular servo horns in the supplied
 assembly, including its small alignment offsets. Rigid parts are assigned to a
@@ -20,20 +23,23 @@ Positions are millimetres relative to each pivot; the scene uses one unit per
 `so101.bin` stores each group as float32 positions, normalized int16 normals,
 and uint16 triangle indices, padded to a four-byte boundary. `so101.json` records
 offsets, counts, joint hierarchy, source fingerprint and component assignments.
-Everything loads from this repository, with no remote model service.
+The binary is 6,013,108 bytes. Browsers with `DecompressionStream` load the
+losslessly compressed `so101.bin.gz` (3,474,136 bytes); other browsers load the
+same uncompressed geometry. Everything loads from this repository, with no
+remote model service.
 
-The mounting shim is thin, close-fitting and matte, and the static CAD base has a
-separate subdued material. The Graphite / Original toggle changes the printed
-shell between its neutral finish and Bambu PLA Basic Orange, while servo housings
-and hardware stay dark. Settled joint transforms are reused during idle floating
-and colour transitions. Palette changes never alter the joint poses.
+The mounting shim is thin, close-fitting and matte. Every printed part, including
+the complete static CAD base, shares the same white or orange shell material.
+Only actual servo housings and hardware remain dark/metallic. The white chess set
+starts on the robot's side. Settled joint transforms are reused during idle
+floating and colour transitions. Palette changes never alter the joint poses.
 
 The restrained poses in `../../robot-motion.mjs` are presentation animation,
 not calibrated servo commands or a physics/robot-control simulation. Joint
 structure was also cross-checked against the [upstream SO-101 description](https://github.com/TheRobotStudio/SO-ARM100/tree/main/Simulation/SO101).
 No upstream geometry was downloaded or substituted.
 
-Rebuild with Python, numpy, scipy, trimesh and fast-simplification:
+Rebuild with Python, numpy, scipy and trimesh:
 
 ```text
 python scripts/prepare-robot.py "path/to/SO101 Assembly.stl"

@@ -28,7 +28,8 @@ for (let i = 0; i < PIECES.length; i++) {
 assert.ok(meta.bytes < 360_000);
 assert.ok(indexedVertices < sourceVertices * .18);
 const material = new THREE.MeshStandardMaterial({ flatShading: true });
-const { root, heroes } = createChessSet(THREE, geometries, material, material.clone(), material.clone());
+const quietIvory = material.clone(), quietCharcoal = material.clone();
+const { root, heroes } = createChessSet(THREE, geometries, material, quietIvory, quietCharcoal);
 assert.equal(heroes.length, 6);
 assert.equal(root.children.length, 16, 'Six individual heroes plus ten stationary batches');
 assert.equal(new Set(heroes.map(mesh => mesh.material)).size, 6, 'Independent hover materials');
@@ -54,7 +55,15 @@ assert.equal(original.searchParams.get('test'), '1');
 assert.equal(original.hash, '#chess-study');
 assert.equal(paletteURL(original.href, 'graphite').searchParams.has('palette'), false);
 assert.equal(PALETTES.original.robot, 0xff6a13);
-assert.equal(PALETTES.original.opponent, 0x9d432c);
+assert.equal(PALETTES.original.opponent, 0x754322);
+assert.ok(heroes.every(mesh => mesh.position.z < 0), 'Animated white pieces start beside the robot');
+for (const batch of root.children.filter(mesh => mesh.isInstancedMesh)) {
+  for (let i = 0; i < batch.count; i++) {
+    batch.getMatrixAt(i, matrix);
+    assert.equal(matrix.elements[14] < 0, batch.material === quietIvory,
+      'White and opponent ranks occupy opposite sides');
+  }
+}
 const robot = await createRobot(THREE, local);
 robot.update(.5, 0); robot.root.updateMatrixWorld(true);
 const matrices = [];

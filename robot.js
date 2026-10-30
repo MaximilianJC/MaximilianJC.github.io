@@ -1,23 +1,25 @@
-import { robotPose } from './robot-motion.mjs?v=materials-1';
-import { ease } from './chess-motion.mjs?v=materials-1';
-import { PALETTES } from './chess-palettes.mjs?v=materials-1';
+import { robotPose } from './robot-motion.mjs?v=cad-2';
+import { ease } from './chess-motion.mjs?v=cad-2';
+import { PALETTES } from './chess-palettes.mjs?v=cad-2';
 
 export async function createRobot(THREE, load = fetch) {
   const baseURL = new URL('./assets/robot/', import.meta.url);
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 12000);
+  const timeout = setTimeout(() => controller.abort(), 20000);
   let data, buffer;
   try {
+    const compressed = typeof DecompressionStream !== 'undefined';
     const [manifestResponse, binaryResponse] = await Promise.all([
-      load(new URL('so101.json?v=so101-1', baseURL), { signal: controller.signal }),
-      load(new URL('so101.bin?v=so101-1', baseURL), { signal: controller.signal }),
+      load(new URL('so101.json?v=cad-2', baseURL), { signal: controller.signal }),
+      load(new URL(`so101.bin${compressed ? '.gz' : ''}?v=cad-2`, baseURL), { signal: controller.signal }),
     ]);
     if (!manifestResponse.ok || !binaryResponse.ok) throw new Error('Robot asset unavailable');
-    [data, buffer] = await Promise.all([manifestResponse.json(), binaryResponse.arrayBuffer()]);
+    const body = compressed ? new Response(binaryResponse.body.pipeThrough(new DecompressionStream('gzip'))) : binaryResponse;
+    [data, buffer] = await Promise.all([manifestResponse.json(), body.arrayBuffer()]);
   } finally {
     clearTimeout(timeout);
   }
-  if (data.version !== 2 || buffer.byteLength !== data.bytes) throw new Error('Incomplete robot asset');
+  if (data.version !== 3 || buffer.byteLength !== data.bytes) throw new Error('Incomplete robot asset');
 
   const root = new THREE.Group();
   root.name = 'SO-101 — original CAD';
@@ -29,10 +31,9 @@ export async function createRobot(THREE, load = fetch) {
   const shellColour = new THREE.Color(0xa6aba3);
   const shellQuiet = new THREE.Color(0x727b75);
   const colours = Object.values(PALETTES).map(palette => ({
-    shell: new THREE.Color(palette.robot), quiet: new THREE.Color(palette.robotDim), base: new THREE.Color(palette.robotBase),
+    shell: new THREE.Color(palette.robot), quiet: new THREE.Color(palette.robotDim),
   }));
-  const shell = new THREE.MeshStandardMaterial({ color: shellColour, roughness: 0.48, metalness: 0.16, flatShading: true });
-  const baseShell = new THREE.MeshStandardMaterial({ color: colours[0].base, roughness: .78, metalness: .04, flatShading: true });
+  const shell = new THREE.MeshStandardMaterial({ color: shellColour, roughness: 0.48, metalness: 0.16 });
   const servo = new THREE.MeshStandardMaterial({ color: 0x202626, roughness: 0.36, metalness: 0.28 });
   const metal = new THREE.MeshStandardMaterial({ color: 0x858d8b, roughness: 0.3, metalness: 0.7 });
   const materials = { shell, servo, metal };
@@ -57,7 +58,8 @@ export async function createRobot(THREE, load = fetch) {
     geometry.setAttribute('normal', new THREE.BufferAttribute(new Int16Array(buffer, part.offset + n * 12, n * 3), 3, true));
     geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(buffer, part.offset + n * 18, part.indices), 1));
     geometry.computeBoundingSphere();
-    const mesh = new THREE.Mesh(geometry, part.joint === 0 && part.material === 'shell' ? baseShell : materials[part.material]);
+    const mesh = new THREE.Mesh(geometry, materials[part.material]);
+    mesh.userData.cadMaterial = part.material;
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     joints[part.joint].add(mesh);
@@ -84,7 +86,6 @@ export async function createRobot(THREE, load = fetch) {
       if (mix !== lastMix) {
         shellColour.lerpColors(colours[0].shell, colours[1].shell, mix);
         shellQuiet.lerpColors(colours[0].quiet, colours[1].quiet, mix);
-        baseShell.color.lerpColors(colours[0].base, colours[1].base, mix);
         shell.roughness = .48 + mix * .13;
         shell.metalness = .16 * (1 - mix);
       }

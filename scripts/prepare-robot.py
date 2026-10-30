@@ -1,9 +1,10 @@
 """Build the web rig from Maximilian's SO101 Assembly.stl (millimetres, Z up).
 
-Requires numpy, scipy, trimesh, fast-simplification. The original is read-only.
+Requires numpy, scipy, trimesh. The original is read-only.
 Usage: python scripts/prepare-robot.py "path/to/SO101 Assembly.stl"
 """
 import hashlib
+import gzip
 import json
 import sys
 from pathlib import Path
@@ -79,14 +80,18 @@ for component in range(count):
     material='shell' if attribute==30653 else 'servo' if attribute==3171 else 'metal'
     mesh=trimesh.Trimesh(vertices=v,faces=faces,process=False)
     mesh.remove_unreferenced_vertices()
-    target=max(48,min(2400 if material=='shell' else 700,int(len(faces)*.18)))
-    if len(faces)>target:
-        mesh=mesh.simplify_quadric_decimation(face_count=target,aggression=7)
+    # Preserve every visible CAD triangle. Aggressive decimation warped flat
+    # brackets and rounded edges in the earlier web export.
     mesh.update_faces(mesh.nondegenerate_faces(height=1e-6))
     mesh.remove_unreferenced_vertices()
+    source_surfaces = mesh.triangles.copy()
     mesh=trimesh.graph.smooth_shade(mesh,angle=np.radians(32))
+    def ordered_surfaces(triangles):
+        rows=triangles.reshape(-1,9)
+        return rows[np.lexsort(rows.T[::-1])]
+    assert np.array_equal(ordered_surfaces(mesh.triangles), ordered_surfaces(source_surfaces)), 'Shading must never change CAD surfaces.'
     meshes.setdefault((joint,material),[]).append(mesh)
-    kept.append(dict(component=component,joint=names[joint],triangles=len(mesh.faces)))
+    kept.append(dict(component=component,joint=names[joint],material=material,sourceTriangles=len(faces),triangles=len(mesh.faces)))
 
 chunks=[]; groups=[]; offset=0; total=0
 for (joint,material),parts in sorted(meshes.items()):
@@ -111,8 +116,10 @@ for (joint,material),parts in sorted(meshes.items()):
 destination=ROOT/'assets/robot'; destination.mkdir(exist_ok=True)
 binary=b''.join(chunks)
 (destination/'so101.bin').write_bytes(binary)
-manifest=dict(version=2,source='SO101 Assembly.stl',sourceSHA256=hashlib.sha256(data).hexdigest(),
-              units='mm',up='Z',sourceTriangles=len(raw),triangles=total,bytes=len(binary),
+compressed=gzip.compress(binary,compresslevel=9,mtime=0)
+(destination/'so101.bin.gz').write_bytes(compressed)
+manifest=dict(version=3,source='SO101 Assembly.stl',sourceSHA256=hashlib.sha256(data).hexdigest(),
+              units='mm',up='Z',sourceTriangles=len(raw),triangles=total,bytes=len(binary),compressedBytes=len(compressed),
               joints=joints,groups=groups,components=kept)
 (destination/'so101.json').write_text(json.dumps(manifest,indent=2)+'\n')
-print(json.dumps(dict(sourceTriangles=len(raw),triangles=total,bytes=len(binary),drawCalls=len(groups),components=len(kept))))
+print(json.dumps(dict(sourceTriangles=len(raw),triangles=total,bytes=len(binary),compressedBytes=len(compressed),drawCalls=len(groups),components=len(kept))))

@@ -1,4 +1,4 @@
-import { PIECES } from './chess-motion.mjs?v=materials-1';
+import { PIECES } from './chess-motion.mjs?v=cad-2';
 
 // Bound actual framebuffer area, not just DPR: large Retina displays otherwise
 // render millions of invisible pixels. Quality can adapt without changing fps.
@@ -34,7 +34,7 @@ export function indexGeometry(THREE, geometry) {
 export async function loadChessGeometry(THREE, load = fetch) {
   const base = new URL('./assets/chess/', import.meta.url);
   const [metaResponse, binaryResponse] = await Promise.all([
-    load(new URL('geometry.json?v=materials-1', base)), load(new URL('geometry.bin?v=materials-1', base)),
+    load(new URL('geometry.json?v=cad-2', base)), load(new URL('geometry.bin?v=cad-2', base)),
   ]);
   if (!metaResponse.ok || !binaryResponse.ok) throw new Error('Chess geometry unavailable');
   const [meta, buffer] = await Promise.all([metaResponse.json(), binaryResponse.arrayBuffer()]);
@@ -53,11 +53,12 @@ export function createChessSet(THREE, geometries, ivory, quietIvory, quietCharco
   const root = new THREE.Group(), heroes = [], batches = new Map();
   const rank = [4, 3, 2, 1, 0, 2, 3, 4];
   for (let side = 0; side < 2; side++) for (let row = 0; row < 2; row++) for (let file = 0; file < 8; file++) {
-    const type = row ? 5 : rank[file], x = file - 3.5, z = side ? row - 3.5 : 3.5 - row;
+    const type = row ? 5 : rank[file], x = 3.5 - file, z = side ? 3.5 - row : row - 3.5;
     const hero = !side && PIECES[type].x === x && PIECES[type].z === z;
     if (hero) {
       const mesh = new THREE.Mesh(geometries[type], ivory.clone());
       mesh.position.set(x, 0, z);
+      mesh.rotation.y = Math.PI;
       mesh.castShadow = mesh.receiveShadow = true;
       mesh.material.emissive.set(0xff5a1f);
       mesh.material.emissiveIntensity = 0;
@@ -73,7 +74,7 @@ export function createChessSet(THREE, geometries, ivory, quietIvory, quietCharco
   for (const { type, side, positions } of batches.values()) {
     const batch = new THREE.InstancedMesh(geometries[type], side ? quietCharcoal : quietIvory, positions.length);
     positions.forEach(([x, z], i) => {
-      matrix.makeRotationY(side ? Math.PI : 0);
+      matrix.makeRotationY(side ? 0 : Math.PI);
       matrix.setPosition(x, 0, z);
       batch.setMatrixAt(i, matrix);
     });

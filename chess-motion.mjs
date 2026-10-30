@@ -32,12 +32,12 @@ export function floatOffset(index, seconds, progress, idle = 1) {
 }
 
 export const PIECES = [
-  { id: 'king', name: 'King', file: 'Koenig.stl', x: 0.5, z: 3.5 },
-  { id: 'queen', name: 'Queen', file: 'Dame.stl', x: -0.5, z: 3.5 },
-  { id: 'bishop', name: 'Bishop', file: 'Laeufer.stl', x: 1.5, z: 3.5 },
-  { id: 'knight', name: 'Knight', file: 'Pferd.stl', x: 2.5, z: 3.5 },
-  { id: 'rook', name: 'Rook', file: 'Turm.stl', x: 3.5, z: 3.5 },
-  { id: 'pawn', name: 'Pawn', file: 'Bauer.stl', x: 0.5, z: 2.5 },
+  { id: 'king', name: 'King', file: 'Koenig.stl', x: -0.5, z: -3.5 },
+  { id: 'queen', name: 'Queen', file: 'Dame.stl', x: 0.5, z: -3.5 },
+  { id: 'bishop', name: 'Bishop', file: 'Laeufer.stl', x: -1.5, z: -3.5 },
+  { id: 'knight', name: 'Knight', file: 'Pferd.stl', x: -2.5, z: -3.5 },
+  { id: 'rook', name: 'Rook', file: 'Turm.stl', x: -3.5, z: -3.5 },
+  { id: 'pawn', name: 'Pawn', file: 'Bauer.stl', x: -0.5, z: -2.5 },
 ];
 
 export function piecePose(index, progress) {
@@ -49,13 +49,15 @@ export function piecePose(index, progress) {
   const turn = ease(0.35, 0.79, progress);
   // Assign ring slots so the six paths never cross during deployment/retraction.
   const slot = [2, 3, 1, 5, 0, 4][index];
-  const angle = slot / PIECES.length * TAU + Math.PI / 12 + turn * TAU;
+  // Rotate the complete original trajectory: white starts beside the robot,
+  // and relative spacing remains exactly the same throughout the orbit.
+  const angle = slot / PIECES.length * TAU + Math.PI / 12 + Math.PI + turn * TAU;
   const radius = 3.15;
   return {
     x: piece.x + (Math.cos(angle) * radius - piece.x) * spread,
     y: (lift * (2.55 + index * 0.12) + spread * 0.5) * (1 - land),
     z: piece.z + (Math.sin(angle) * radius - piece.z) * spread,
-    rotation: turn * TAU,
+    rotation: Math.PI + turn * TAU,
     spread,
   };
 }

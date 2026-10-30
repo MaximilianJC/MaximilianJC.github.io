@@ -26,8 +26,9 @@ for (let i = 0; i < PIECES.length; i++) {
     assert.equal(pose.z, piece.z, `${piece.name}: exact home rank`);
     assert.equal(pose.y, 0, `${piece.name}: sits on the board`);
   }
-  assert.equal(first.rotation, 0);
-  assert.equal(last.rotation, TAU, `${piece.name}: full rotation about its own axis`);
+  assert.equal(first.rotation, Math.PI);
+  assert.equal(last.rotation - first.rotation, TAU, `${piece.name}: full rotation about its own axis`);
+  assert.ok(piece.z < 0, 'White home squares are on the robot side');
   let angleTravel = 0;
   let previous = piecePose(i, 0.35);
   for (let step = 1; step <= 200; step++) {

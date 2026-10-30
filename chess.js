@@ -1,6 +1,6 @@
-import { PIECES, piecePose, floatOffset, orbitPresence, ease, clamp, followScroll } from './chess-motion.mjs?v=materials-1';
-import { PALETTES, paletteFromSearch, paletteURL } from './chess-palettes.mjs?v=materials-1';
-import { loadChessGeometry, createChessSet, pixelRatioFor, frameDelta } from './chess-render.mjs?v=materials-1';
+import { PIECES, piecePose, floatOffset, orbitPresence, ease, clamp, followScroll } from './chess-motion.mjs?v=cad-2';
+import { PALETTES, paletteFromSearch, paletteURL } from './chess-palettes.mjs?v=cad-2';
+import { loadChessGeometry, createChessSet, pixelRatioFor, frameDelta } from './chess-render.mjs?v=cad-2';
 
 const section = document.querySelector('.chess-study');
 const stage = section.querySelector('.chess-stage');
@@ -24,7 +24,7 @@ function selectPalette(key, updateURL = true) {
   section.dataset.palette = selectedPalette;
   paletteButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.palette === selectedPalette)));
   if (!section.classList.contains('is-ready')) {
-    section.querySelector('.chess-poster').src = `${PALETTES[selectedPalette].poster}?v=materials-1`;
+    section.querySelector('.chess-poster').src = `${PALETTES[selectedPalette].poster}?v=cad-2`;
   }
   if (updateURL) history.replaceState(null, '', paletteURL(location.href, selectedPalette));
   wakeScene();
@@ -63,7 +63,7 @@ async function init() {
   try {
     const [THREE, { createRobot }] = await Promise.all([
       import('./assets/vendor/three/three.module.min.js'),
-      import('./robot.js?v=materials-1'),
+      import('./robot.js?v=cad-2'),
     ]);
     const narrow = () => viewport.clientWidth < 800;
     renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'high-performance' });
@@ -175,6 +175,7 @@ async function init() {
     coordinateTexture.colorSpace = THREE.SRGBColorSpace;
     const coordinates = new THREE.Mesh(new THREE.PlaneGeometry(8.45, 8.45), new THREE.MeshBasicMaterial({ map: coordinateTexture, transparent: true, depthWrite: false, opacity: 0.65 }));
     coordinates.rotation.x = -Math.PI / 2;
+    coordinates.rotation.z = Math.PI;
     coordinates.position.y = 0.006;
     board.add(coordinates);
     board.traverse(object => { object.updateMatrix(); object.matrixAutoUpdate = false; });
@@ -231,9 +232,9 @@ async function init() {
     const colours = Object.fromEntries(Object.entries(PALETTES).map(([key, palette]) => [key, {
       // Compensate for the bright studio rig so pale PLA doesn't clip to white.
       // The palette retains the reference sRGB values; this is scene exposure.
-      tiles: palette.tiles.map(hex => new THREE.Color(hex).multiplyScalar(key === 'original' ? .24 : 1)),
-      opponent: new THREE.Color(palette.opponent).multiplyScalar(key === 'original' ? .45 : 1),
-      opponentDim: new THREE.Color(palette.opponentDim).multiplyScalar(key === 'original' ? .45 : 1),
+      tiles: palette.tiles.map(hex => new THREE.Color(hex).multiplyScalar(key === 'original' ? .32 : 1)),
+      opponent: new THREE.Color(palette.opponent).multiplyScalar(key === 'original' ? .55 : 1),
+      opponentDim: new THREE.Color(palette.opponentDim).multiplyScalar(key === 'original' ? .55 : 1),
     }]));
     wakeScene = () => { requestFrame(); };
 
@@ -297,13 +298,13 @@ async function init() {
       if (paletteMix !== lastPaletteMix) {
         tileMaterials.forEach((material, i) => {
           material.color.lerpColors(colours.graphite.tiles[i], colours.original.tiles[i], paletteMix);
-          material.roughness = .65 + paletteMix * .13;
+          material.roughness = .65 - paletteMix * .07;
           material.metalness = .08 * (1 - paletteMix);
         });
         blackColour.lerpColors(colours.graphite.opponent, colours.original.opponent, paletteMix);
         blackDim.lerpColors(colours.graphite.opponentDim, colours.original.opponentDim, paletteMix);
-        quietCharcoal.roughness = .36 + paletteMix * .2;
-        quietCharcoal.metalness = .23 * (1 - paletteMix);
+        quietCharcoal.roughness = .36 + paletteMix * .42;
+        quietCharcoal.metalness = .23 - paletteMix * .19;
         lastPaletteMix = paletteMix;
       }
       const flight = ease(0.08, 0.32, p) * (1 - ease(0.83, 0.99, p));
