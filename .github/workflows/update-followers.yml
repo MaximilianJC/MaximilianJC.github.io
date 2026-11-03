@@ -22,7 +22,9 @@ permissions:
 #                      portal and no 60-day token rotation. Kept as a secret only so the
 #                      free plan's 1,200 requests/month can't be burned by strangers.
 # TikTok needs no secret (public page scrape). If a secret is missing, that platform is
-# skipped and data/followers.json keeps its last known value.
+# skipped and data/followers.json keeps its last known value; the run reports failure.
+# A disconnected Behold source may still serve cached JSON with HTTP 200. Reauthorize
+# the existing source at behold.so; a successful fetch alone cannot verify freshness.
 
 jobs:
   update:
@@ -47,15 +49,16 @@ jobs:
         with:
           node-version: 20
       - run: node scripts/update-followers.mjs
+        id: refresh
         if: steps.gate.outputs.go == 'true'
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           BEHOLD_FEED_URL: ${{ secrets.BEHOLD_FEED_URL }}
       - name: Commit updated follower count
-        if: steps.gate.outputs.go == 'true'
+        if: ${{ !cancelled() && (steps.refresh.outcome == 'success' || steps.refresh.outcome == 'failure') }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/followers.json
-          git diff --staged --quiet || git commit -m "chore: update YouTube follower count"
+          git diff --staged --quiet || git commit -m "chore: check social follower counts"
           git push

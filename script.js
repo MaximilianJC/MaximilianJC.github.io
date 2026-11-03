@@ -216,8 +216,11 @@ new IntersectionObserver((entries, observer) => {
   runCount();
 }, { threshold: 0.35 }).observe(reachGrid);
 
-fetch("data/followers.json")
-  .then(r => r.json())
+fetch("data/followers.json", { cache: "no-cache" })
+  .then(r => {
+    if (!r.ok) throw new Error("Follower data unavailable");
+    return r.json();
+  })
   .then(data => {
     const counts = ledgerRows.map(row => Number(data[row.dataset.platform]) || 0);
     const total = counts.reduce((a, b) => a + b, 0);
@@ -242,13 +245,24 @@ fetch("data/followers.json")
       row.addEventListener("blur", blur);
     });
 
-    if (data.updatedAt) {
-      const d = new Date(data.updatedAt);
-      updatedEl.textContent = `Auto-synced daily · last updated ${d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}`;
-    }
+    // A successful feed fetch can still return cached Instagram data, even
+    // when Behold's connection is revoked. This is a check time, not freshness.
+    const checkedAt = data.checkedAt || data.updatedAt;
+    const d = new Date(checkedAt);
+    const checked = checkedAt && !Number.isNaN(d.getTime())
+      ? ` · checked ${d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}`
+      : "";
+    const failed = ledgerRows.filter(row => data.platforms?.[row.dataset.platform]?.status === "error")
+      .map(row => row.dataset.label);
+    updatedEl.textContent = `Latest available counts${checked} · Instagram may be delayed`;
+    if (failed.length) updatedEl.textContent += ` · Could not refresh: ${failed.join(", ")}`;
     runCount();
   })
-  .catch(() => {});
+  .catch(() => {
+    totalEl.textContent = "—";
+    ledgerRows.forEach(row => { row.querySelector("[data-count]").textContent = "—"; });
+    updatedEl.textContent = "Follower counts are temporarily unavailable.";
+  });
 
 // ---- Crosshair cursor (mouse only) ----
 const cursor = document.querySelector(".cursor");
