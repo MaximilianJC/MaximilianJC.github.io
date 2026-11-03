@@ -1,6 +1,23 @@
 {
   "youtube": 159,
-  "instagram": 10894,
-  "tiktok": 7928,
-  "updatedAt": "2026-11-03T03:50:44.473Z"
+  "instagram": 10904,
+  "tiktok": 7927,
+  "platforms": {
+    "youtube": {
+      "checkedAt": "2026-11-03T22:15:31.766Z",
+      "status": "ok",
+      "lastSuccessAt": "2026-11-03T22:15:31.766Z"
+    },
+    "tiktok": {
+      "checkedAt": "2026-11-03T22:15:31.766Z",
+      "status": "ok",
+      "lastSuccessAt": "2026-11-03T22:15:31.766Z"
+    },
+    "instagram": {
+      "checkedAt": "2026-11-03T22:15:31.766Z",
+      "status": "ok",
+      "lastSuccessAt": "2026-11-03T22:15:31.766Z"
+    }
+  },
+  "checkedAt": "2026-11-03T22:15:31.766Z"
 }
