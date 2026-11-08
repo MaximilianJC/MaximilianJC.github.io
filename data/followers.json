@@ -1,23 +1,23 @@
 {
   "youtube": 159,
-  "instagram": 11190,
-  "tiktok": 7936,
+  "instagram": 11230,
+  "tiktok": 7939,
   "platforms": {
     "youtube": {
-      "checkedAt": "2026-11-07T02:33:23.207Z",
+      "checkedAt": "2026-11-08T02:03:54.887Z",
       "status": "ok",
-      "lastSuccessAt": "2026-11-07T02:33:23.207Z"
+      "lastSuccessAt": "2026-11-08T02:03:54.887Z"
     },
     "tiktok": {
-      "checkedAt": "2026-11-07T02:33:23.207Z",
+      "checkedAt": "2026-11-08T02:03:54.887Z",
       "status": "ok",
-      "lastSuccessAt": "2026-11-07T02:33:23.207Z"
+      "lastSuccessAt": "2026-11-08T02:03:54.887Z"
     },
     "instagram": {
-      "checkedAt": "2026-11-07T02:33:23.207Z",
+      "checkedAt": "2026-11-08T02:03:54.887Z",
       "status": "ok",
-      "lastSuccessAt": "2026-11-07T02:33:23.207Z"
+      "lastSuccessAt": "2026-11-08T02:03:54.887Z"
     }
   },
-  "checkedAt": "2026-11-07T02:33:23.207Z"
+  "checkedAt": "2026-11-08T02:03:54.887Z"
 }
